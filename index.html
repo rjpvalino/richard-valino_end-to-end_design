@@ -1,0 +1,938 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spectrum Pivot Advisor — Case Study</title>
+<meta name="description" content="An AI-assisted tool that helps RF engineers decide when to move LTE spectrum to 5G, county by county. Design case study. -- by Richard Valino">
+<style>
+/* ----------------------------------------------------------------- tokens */
+:root{
+  color-scheme: light;
+  --bg:#ffffff; --bg-2:#f7f7f5; --bg-3:#f0efec;
+  --ink:#14140f; --ink-2:#4a4a44; --ink-3:#7c7b74;
+  --line:#e4e3dd;
+  --accent:#1c5cab;          /* one accent colour, used sparingly */
+  --accent-soft:#eaf1fb;
+  --carve:#0f7f57; --hold:#8a6200; --review:#3b2f86;
+  --maxw:1120px;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:where(:not([data-theme="light"])){
+    color-scheme: dark;
+    --bg:#111110; --bg-2:#191918; --bg-3:#232322;
+    --ink:#f6f5f2; --ink-2:#c3c2b7; --ink-3:#908f87;
+    --line:#2c2c2a;
+    --accent:#6da7ec; --accent-soft:#16233a;
+    --carve:#1baf7a; --hold:#eda100; --review:#9085e9;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:72px}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{margin:0; line-height:1.2; letter-spacing:-.02em; font-weight:650}
+p{margin:0 0 1.05em}
+a{color:var(--accent)}
+img{max-width:100%; display:block}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+.wide{max-width:1320px; margin:0 auto; padding:0 24px}
+section{padding:78px 0; border-top:1px solid var(--line)}
+section:first-of-type{border-top:0}
+.eyebrow{
+  font-size:12px; font-weight:700; letter-spacing:.13em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:14px;
+}
+h2{font-size:clamp(26px,3.4vw,36px); margin-bottom:10px}
+.lede{font-size:19px; color:var(--ink-2); max-width:68ch; margin-bottom:34px}
+h3{font-size:19px; margin:34px 0 10px}
+.prose{max-width:70ch; color:var(--ink-2)}
+.prose strong{color:var(--ink)}
+
+/* ----------------------------------------------------------------- nav */
+nav{
+  position:sticky; top:0; z-index:60; background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+}
+nav .wide{display:flex; align-items:center; gap:22px; height:56px}
+nav .nm{font-weight:700; font-size:15px; letter-spacing:-.01em; white-space:nowrap}
+nav ul{display:flex; gap:18px; list-style:none; margin:0; padding:0; overflow-x:auto; scrollbar-width:none}
+nav ul::-webkit-scrollbar{display:none}
+nav a{color:var(--ink-2); text-decoration:none; font-size:13.5px; white-space:nowrap}
+nav a:hover{color:var(--accent)}
+nav .cta{
+  margin-left:auto; background:var(--accent); color:#fff; text-decoration:none;
+  padding:7px 15px; border-radius:8px; font-size:13.5px; font-weight:600; white-space:nowrap;
+}
+
+/* ----------------------------------------------------------------- hero */
+.hero{padding:76px 0 64px}
+.hero h1{font-size:clamp(38px,6.4vw,62px); letter-spacing:-.035em; margin-bottom:18px}
+.hero .one{font-size:clamp(19px,2.3vw,23px); color:var(--ink-2); max-width:36ch; margin-bottom:34px}
+.hero-meta{display:flex; gap:42px; flex-wrap:wrap; margin-bottom:34px}
+.hero-meta div{min-width:150px}
+.hero-meta .k{font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-3); margin-bottom:5px}
+.hero-meta .v{font-size:15px; color:var(--ink)}
+.btns{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
+.btn{
+  display:inline-block; padding:12px 22px; border-radius:10px; text-decoration:none;
+  font-weight:600; font-size:15px; border:1px solid var(--line); color:var(--ink);
+}
+.btn.primary{background:var(--accent); color:#fff; border-color:transparent}
+.btn.ghost:hover{border-color:var(--ink-3)}
+.ph{
+  display:inline-block; background:#fff3cd; color:#5c4708; border:1px dashed #d9a800;
+  padding:2px 9px; border-radius:6px; font-size:13px; font-weight:600;
+  font-family:ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:where(:not([data-theme="light"])) .ph{background:#3a300d; color:#f0d67a; border-color:#8a6f10}
+}
+
+/* ----------------------------------------------------------------- bits */
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(255px,1fr)); gap:16px}
+.card{background:var(--bg-2); border:1px solid var(--line); border-radius:var(--r); padding:22px}
+.card h4{font-size:15px; margin-bottom:7px}
+.card p{font-size:14.5px; color:var(--ink-2); margin:0}
+.card .n{
+  display:grid; place-items:center; width:26px; height:26px; border-radius:7px;
+  background:var(--accent-soft); color:var(--accent); font-size:13px; font-weight:700;
+  margin-bottom:12px;
+}
+blockquote{
+  margin:0; padding:20px 24px; background:var(--bg-2);
+  border-left:3px solid var(--accent); border-radius:0 var(--r) var(--r) 0;
+}
+blockquote p{font-size:17px; margin:0 0 9px}
+blockquote cite{font-style:normal; font-size:13.5px; color:var(--ink-3)}
+.quotes{display:grid; gap:14px}
+.two{display:grid; grid-template-columns:repeat(auto-fit,minmax(310px,1fr)); gap:22px}
+.note{
+  background:var(--accent-soft); border-radius:var(--r); padding:20px 24px;
+  font-size:15px; color:var(--ink-2);
+}
+.note strong{color:var(--ink)}
+ul.tight{margin:0 0 1em; padding-left:20px; color:var(--ink-2)}
+ul.tight li{margin-bottom:7px}
+.tag{
+  display:inline-block; font-size:12px; padding:3px 10px; border-radius:999px;
+  background:var(--bg-3); color:var(--ink-2); margin:0 6px 6px 0;
+}
+
+/* ----------------------------------------------------------------- journey */
+.scroller{overflow-x:auto; padding-bottom:8px; -webkit-overflow-scrolling:touch}
+.jm{min-width:1080px; border:1px solid var(--line); border-radius:var(--r); overflow:hidden; background:var(--bg-2)}
+.jm-row{display:grid; grid-template-columns:118px repeat(9,1fr); border-top:1px solid var(--line)}
+.jm-row:first-child{border-top:0}
+.jm-row > div{padding:11px 12px; border-left:1px solid var(--line); font-size:13px; color:var(--ink-2)}
+.jm-row > div:first-child{
+  border-left:0; background:var(--bg-3); font-weight:650; color:var(--ink);
+  font-size:11.5px; text-transform:uppercase; letter-spacing:.07em;
+}
+.jm-row.head > div{background:var(--bg-3); color:var(--ink); font-weight:650; font-size:12.5px}
+.jm-row.head .dur{display:block; font-weight:500; color:var(--ink-3); font-size:11.5px; margin-top:3px}
+.jm .pain{color:#a33}
+@media (prefers-color-scheme: dark){ :root:where(:not([data-theme="light"])) .jm .pain{color:#ef8a8a} }
+.jm .win{color:var(--carve)}
+.emo{display:grid; grid-template-columns:118px 1fr; border-top:1px solid var(--line)}
+.emo > .lab{padding:11px 12px; background:var(--bg-3); font-weight:650; color:var(--ink); font-size:11.5px; text-transform:uppercase; letter-spacing:.07em}
+.emo svg{display:block; width:100%; height:92px}
+
+/* ----------------------------------------------------------------- blueprint */
+.bp{min-width:1080px; border:1px solid var(--line); border-radius:var(--r); overflow:hidden; background:var(--bg-2)}
+.bp-row{display:grid; grid-template-columns:150px repeat(6,1fr); border-top:1px solid var(--line)}
+.bp-row:first-child{border-top:0}
+.bp-row > div{padding:12px; border-left:1px solid var(--line); font-size:13px; color:var(--ink-2)}
+.bp-row > div:first-child{
+  border-left:0; background:var(--bg-3); color:var(--ink); font-weight:650;
+  font-size:11.5px; text-transform:uppercase; letter-spacing:.07em;
+}
+.bp-row.head > div{background:var(--bg-3); color:var(--ink); font-weight:650; font-size:12.5px}
+.bp-row.sep{border-top:2px dashed var(--line)}
+.bp .ico{font-size:14px; margin-right:5px}
+.bp .fail{color:#a33; font-weight:600}
+@media (prefers-color-scheme: dark){ :root:where(:not([data-theme="light"])) .bp .fail{color:#ef8a8a} }
+.legend{display:flex; gap:20px; flex-wrap:wrap; margin-top:14px; font-size:13.5px; color:var(--ink-2)}
+
+/* ----------------------------------------------------------------- demo */
+.demo-wrap{
+  margin:0; border:1px solid var(--line); border-radius:var(--r); overflow:hidden;
+  background:var(--bg-2); max-width:900px;
+}
+.demo-wrap img{width:100%; height:auto; display:block}
+
+/* ----------------------------------------------------------------- shots */
+.shot{margin-bottom:46px}
+.shot h3{margin-top:0}
+.shot-figure{
+  position:relative; border:1px solid var(--line); border-radius:var(--r);
+  overflow:hidden; background:var(--bg-2);
+}
+.shot-figure img{width:100%}
+.shot-figure.tall{max-height:640px; overflow-y:auto}
+.pin{
+  position:absolute; width:25px; height:25px; border-radius:50%;
+  background:var(--accent); color:#fff; font-size:12.5px; font-weight:700;
+  display:grid; place-items:center; transform:translate(-50%,-50%);
+  box-shadow:0 0 0 3px var(--bg), 0 2px 6px rgba(0,0,0,.28);
+}
+.callouts{list-style:none; margin:16px 0 0; padding:0; display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(265px,1fr)); gap:11px}
+.callouts li{display:flex; gap:10px; font-size:14.5px; color:var(--ink-2)}
+.callouts .n{
+  flex:none; width:22px; height:22px; border-radius:50%; background:var(--accent-soft);
+  color:var(--accent); font-size:12px; font-weight:700; display:grid; place-items:center;
+  margin-top:2px;
+}
+figcaption{font-size:13.5px; color:var(--ink-3); margin-top:10px}
+
+/* ----------------------------------------------------------------- misc */
+.principles{counter-reset:p; display:grid; grid-template-columns:repeat(auto-fit,minmax(255px,1fr)); gap:18px}
+.principle{padding:24px; border:1px solid var(--line); border-radius:var(--r)}
+.principle .num{font-size:30px; font-weight:700; color:var(--accent); opacity:.35; line-height:1; margin-bottom:10px}
+.principle h4{font-size:16px; margin-bottom:7px}
+.principle p{font-size:14.5px; color:var(--ink-2); margin:0}
+table.plain{width:100%; border-collapse:collapse; font-size:14.5px}
+table.plain th,table.plain td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+table.plain th{font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-3); font-weight:650}
+footer{padding:46px 0 64px; color:var(--ink-3); font-size:14px; border-top:1px solid var(--line)}
+.synthetic{
+  display:inline-block; font-size:12.5px; padding:5px 12px; border-radius:999px;
+  background:var(--bg-3); color:var(--ink-2); border:1px solid var(--line);
+}
+@media (max-width:820px){
+  /* the section links get squeezed to a useless sliver between the brand and
+     the CTA long before the page itself breaks - drop them and keep the CTA */
+  nav ul{display:none}
+}
+@media (max-width:640px){
+  section{padding:54px 0}
+  .hero{padding:48px 0 40px}
+  .hero-meta{gap:26px}
+  .shot-figure.tall{max-height:420px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wide">
+    <span class="nm">Spectrum&nbsp;Pivot&nbsp;Advisor</span>
+    <ul>
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="#problem">Problem</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#personas">Personas</a></li>
+      <li><a href="#journey">Journey</a></li>
+      <li><a href="#blueprint">Blueprint</a></li>
+      <li><a href="#principles">Principles</a></li>
+      <li><a href="#solution">Solution</a></li>
+      <li><a href="#ai">AI layer</a></li>
+      <li><a href="#outcomes">Outcomes</a></li>
+    </ul>
+    <a class="cta" href="prototype.html">Open prototype →</a>
+  </div>
+</nav>
+
+<!-- ============================================================ 1. HERO -->
+<header class="hero">
+  <div class="wrap">
+    <span class="synthetic">Synthetic data — fictional carrier</span>
+    <h1 style="margin-top:20px">Spectrum Pivot Advisor</h1>
+    <p class="one">An AI-assisted tool that helps RF engineers decide when to move
+      LTE spectrum to 5G, county by county.</p>
+
+    <div class="hero-meta">
+      <div><div class="k">My role</div><div class="v">Designer &amp; Prototyper</div></div>
+      <div><div class="k">Tools</div><div class="v">Python, Claude API, MCP, Leaflet, Chart.js</div></div>
+      <div><div class="k">Scope</div><div class="v">257 counties — Illinois, Wisconsin, Michigan</div></div>
+    </div>
+
+    <div class="btns">
+      <a class="btn primary" href="prototype.html">Open the live prototype</a>
+      <a class="btn ghost" href="#demo">Watch the 26-second demo ↓</a>
+      <a class="btn ghost" href="#solution">Read the walkthrough</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================ DEMO -->
+<section id="demo">
+  <div class="wide">
+    <div class="eyebrow">Demo</div>
+    <h2>Twenty-six seconds, end to end</h2>
+    <p class="lede">Map to county to decision, captured from the running prototype.
+      Silent and looping — <a href="prototype.html">open the real thing</a> to click
+      through it yourself.</p>
+    <figure class="demo-wrap">
+      <img src="assets/demo.gif" width="900" height="562" loading="lazy"
+           alt="Animated walkthrough: filtering the map to Michigan, zooming to Wayne County, reading the recommendation and the rules that fired, the spectrum block strip, adjusting the MHz split, approving, then the manager review queue and the summary.">
+    </figure>
+  </div>
+</section>
+
+<!-- ========================================================= 2. PROBLEM -->
+<section id="problem">
+  <div class="wrap">
+    <div class="eyebrow">The problem</div>
+    <h2>Spectrum decisions depend on stitching together three or four data sources by hand</h2>
+    <div class="prose" style="font-size:18px">
+      <p>Over 18 years of RF planning and optimization experience in the telecom industry,
+      I've watched spectrum decisions depend on stitching together three or four data
+      sources by hand.</p>
+      <p>In my last role as data owner for a regional planning team, I automated pieces of
+      this with Alteryx and Power BI, but <strong>the decision itself was still manual and
+      hard to audit</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== 3. RESEARCH -->
+<section id="research">
+  <div class="wrap">
+    <div class="eyebrow">Research</div>
+    <h2>What practitioners actually said</h2>
+    <p class="lede"><strong>Method:</strong> 3 interviews with RF practitioners, plus my own
+      experience planning spectrum refarms.</p>
+
+    <div class="quotes">
+      <blockquote>
+        <p>“The longest part is waiting for the Capacity team's feedback. Reconciling data
+          from different sources comes second.”</p>
+        <cite>Sr. Engineer, Systems Design — 9 years</cite>
+      </blockquote>
+      <blockquote>
+        <p>“If the county is mostly LTE-only devices, we don't refarm for now.”</p>
+        <cite>Engineer, Systems Design — 3 years</cite>
+      </blockquote>
+      <blockquote>
+        <p>“If some sites are still LTE-only, we might leave 5 MHz on LTE.”</p>
+        <cite>Sr. Engineer, Systems Design — 4 years</cite>
+      </blockquote>
+      <blockquote>
+        <p>“If it's suggesting to refarm LTE when LTE has more users and is clearly
+          congested, I wouldn't trust it.”</p>
+        <cite>Sr. Engineer, Systems Design — 8 years</cite>
+      </blockquote>
+    </div>
+    <figcaption>Quotes lightly edited for clarity; attributed by role only.</figcaption>
+
+    <h3>Key insights</h3>
+    <div class="cards">
+      <div class="card"><div class="n">1</div>
+        <h4>The delay is the handoff, not the analysis</h4>
+        <p>The biggest delay is waiting on another team, not the analysis.</p></div>
+      <div class="card"><div class="n">2</div>
+        <h4>Congestion is only one input</h4>
+        <p>Refarming isn't just congestion: hardware readiness, block contiguity, and
+          anchor layers all shape the decision.</p></div>
+      <div class="card"><div class="n">3</div>
+        <h4>No “why”, no trust</h4>
+        <p>Engineers won't trust a recommendation without the “why,” and they reject
+          anything that breaks basic planning logic.</p></div>
+      <div class="card"><div class="n">4</div>
+        <h4>LTE-only users are the first check</h4>
+        <p>LTE-only users are the risk everyone checks first.</p></div>
+      <div class="card"><div class="n">5</div>
+        <h4>Approval runs on email</h4>
+        <p>Handoffs after approval run on email and Excel.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== 4. PERSONAS -->
+<section id="personas">
+  <div class="wrap">
+    <div class="eyebrow">Personas</div>
+    <h2>Who this is for</h2>
+
+    <div class="two">
+      <div class="card">
+        <span class="tag">Primary</span>
+        <h4 style="font-size:18px;margin:8px 0 12px">RF Planning Engineer</h4>
+        <p style="margin-bottom:12px"><strong style="color:var(--ink)">Goal —</strong>
+          build a refarm plan that's fast and defensible.</p>
+        <p style="margin-bottom:12px"><strong style="color:var(--ink)">Frustrations —</strong>
+          waiting days for capacity feedback; reconciling performance, device, hardware,
+          and spectrum data by hand.</p>
+        <p><strong style="color:var(--ink)">Tools today —</strong>
+          Alteryx, Excel, hardware readiness report, spectrum ownership and usage data,
+          email.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Secondary</span>
+        <h4 style="font-size:18px;margin:8px 0 12px">Planning Manager</h4>
+        <p style="margin-bottom:12px"><strong style="color:var(--ink)">Goal —</strong>
+          approve plans quickly without missing a risk.</p>
+        <p><strong style="color:var(--ink)">Frustrations —</strong>
+          reviews happen fast, with little visibility into how the recommendation was
+          reached.</p>
+      </div>
+    </div>
+
+    <h3>Supporting stakeholders</h3>
+    <div>
+      <span class="tag">Capacity team</span><span class="tag">Market team</span>
+      <span class="tag">Operations</span><span class="tag">Performance team</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= 5. CURRENT JOURNEY -->
+<section id="journey">
+  <div class="wide">
+    <div class="eyebrow">Current-state journey map</div>
+    <h2>Where the time goes today</h2>
+    <p class="lede">Two stages dominate the calendar: waiting on the Capacity team, and
+      building the plan by hand once the data finally arrives.</p>
+
+    <div class="scroller">
+      <div class="jm">
+        <div class="jm-row head">
+          <div>Stage</div>
+          <div>Request capacity check</div>
+          <div>Wait for Capacity team<span class="dur">3 days – 1 week</span></div>
+          <div>Check hardware readiness</div>
+          <div>Check spectrum ownership &amp; contiguity</div>
+          <div>Build plan<span class="dur">~1 week</span></div>
+          <div>Manager approval</div>
+          <div>Market kickoff call</div>
+          <div>Ops implements</div>
+          <div>Performance team checks KPIs</div>
+        </div>
+
+        <div class="jm-row">
+          <div>Actions</div>
+          <div>Identify candidate counties, send the request</div>
+          <div>Follow up, work on something else, chase the thread</div>
+          <div>Pull the readiness report, count LTE-only sites</div>
+          <div>Pull ownership and usage, check block adjacency by hand</div>
+          <div>Reconcile four sources, decide each county, write it up</div>
+          <div>Walk the manager through the plan</div>
+          <div>Present the plan to the market team</div>
+          <div>Hand over parameters, answer questions</div>
+          <div>Watch KPIs after the change</div>
+        </div>
+
+        <div class="jm-row">
+          <div>Tools</div>
+          <div>Email</div>
+          <div>Email</div>
+          <div>Hardware readiness report</div>
+          <div>Spectrum ownership &amp; usage data</div>
+          <div>Alteryx, Excel</div>
+          <div>Excel, slides</div>
+          <div>Call, slides</div>
+          <div>Email, Excel</div>
+          <div>Performance data</div>
+        </div>
+
+        <div class="jm-row">
+          <div>Pain points</div>
+          <div class="pain">No shared view of which counties are worth asking about</div>
+          <div class="pain">The single longest wait in the process; blocks everything</div>
+          <div class="pain">Separate report, separate format</div>
+          <div class="pain">Contiguity is read off a band plan manually</div>
+          <div class="pain">Reconciling sources by hand — the second-biggest time sink</div>
+          <div class="pain">Little visibility into how the recommendation was reached</div>
+          <div class="pain">Re-explaining the same reasoning to a new audience</div>
+          <div class="pain">Handoff runs on email and Excel</div>
+          <div class="pain">Findings don't loop back into the next plan</div>
+        </div>
+
+        <div class="emo">
+          <div class="lab">Emotion</div>
+          <svg viewBox="0 0 900 92" preserveAspectRatio="none" role="img"
+               aria-label="Emotion dips sharply while waiting for the Capacity team and stays low through manual data reconciliation, recovering only after approval.">
+            <line x1="0" y1="46" x2="900" y2="46" stroke="currentColor" stroke-opacity=".14"/>
+            <polyline points="50,32 150,74 250,52 350,62 450,58 550,40 650,34 750,46 850,30"
+                      fill="none" stroke="#c0504d" stroke-width="2.5"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+            <g fill="#c0504d">
+              <circle cx="50" cy="32" r="4.5"/><circle cx="150" cy="74" r="6"/>
+              <circle cx="250" cy="52" r="4.5"/><circle cx="350" cy="62" r="5.5"/>
+              <circle cx="450" cy="58" r="5.5"/><circle cx="550" cy="40" r="4.5"/>
+              <circle cx="650" cy="34" r="4.5"/><circle cx="750" cy="46" r="4.5"/>
+              <circle cx="850" cy="30" r="4.5"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <figcaption>Stage durations are the ones described in interviews. Cell detail is my
+      synthesis of the tools and pain points named there and in my own experience.</figcaption>
+  </div>
+</section>
+
+<!-- ====================================================== 6. BLUEPRINT -->
+<section id="blueprint">
+  <div class="wide">
+    <div class="eyebrow">Service blueprint</div>
+    <h2>What sits behind the screen</h2>
+    <p class="lede">Three failure points and four handoffs. The tool can only remove the
+      ones that are about information moving between people.</p>
+
+    <div class="scroller">
+      <div class="bp">
+        <div class="bp-row head">
+          <div>Lane</div>
+          <div>Identify candidates</div>
+          <div>Gather evidence</div>
+          <div>Decide per county</div>
+          <div>Approve</div>
+          <div>Implement</div>
+          <div>Verify</div>
+        </div>
+
+        <div class="bp-row">
+          <div>Engineer actions</div>
+          <div>Pick counties worth reviewing</div>
+          <div>Pull performance, device, hardware and spectrum data</div>
+          <div>Judge each county; decide carve, hold, or escalate</div>
+          <div>Present the plan and the reasoning</div>
+          <div>Hand parameters to Operations</div>
+          <div>Read KPIs after the change</div>
+        </div>
+
+        <div class="bp-row">
+          <div>Frontstage — tool</div>
+          <div>Map coloured by recommendation, with filters</div>
+          <div>One county screen: trends, devices, hardware, spectrum, blocks</div>
+          <div>Recommendation, confidence, rules fired, AI explanation</div>
+          <div>Manager review queue with approve / reject and a comment</div>
+          <div><span class="ico">○</span>Outside the prototype's scope</div>
+          <div><span class="ico">○</span>Outside the prototype's scope</div>
+        </div>
+
+        <div class="bp-row sep">
+          <div>Backstage</div>
+          <div>—</div>
+          <div><span class="ico">⏱</span><span class="fail">Capacity team</span> —
+            request, then wait</div>
+          <div>—</div>
+          <div><span class="ico">↪</span>Manager</div>
+          <div><span class="ico">↪</span>Market team → <span class="ico">↪</span>Operations</div>
+          <div><span class="ico">↪</span>Performance team</div>
+        </div>
+
+        <div class="bp-row">
+          <div>Support systems</div>
+          <div>Performance data</div>
+          <div><span class="ico">⚠︎</span><span class="fail">Four sources reconciled by
+            hand</span> — performance data · device data · hardware readiness ·
+            spectrum ownership and usage</div>
+          <div>Rule engine · LLM explanation layer</div>
+          <div>MCP server — same data, queryable by an agent</div>
+          <div><span class="ico">⚠︎</span><span class="fail">Email, Excel</span></div>
+          <div>Performance data</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span><span class="ico">⏱</span> Failure point — waiting on another team</span>
+      <span><span class="ico">⚠︎</span> Failure point — manual reconciliation, or a handoff
+        that runs on email and Excel</span>
+      <span><span class="ico">↪</span> Handoff between teams</span>
+      <span><span class="ico">○</span> Outside the prototype's scope</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== 7. PRINCIPLES -->
+<section id="principles">
+  <div class="wrap">
+    <div class="eyebrow">Design principles</div>
+    <h2>Four rules the tool holds itself to</h2>
+    <div class="principles" style="margin-top:30px">
+      <div class="principle"><div class="num">01</div>
+        <h4>Explain the “why” behind every recommendation</h4>
+        <p>Every county shows its top three reasons in plain English and the exact rules
+          that fired.</p></div>
+      <div class="principle"><div class="num">02</div>
+        <h4>Humans decide; AI recommends</h4>
+        <p>The rule engine makes the call, a person approves it, and the model only
+          explains what was already decided.</p></div>
+      <div class="principle"><div class="num">03</div>
+        <h4>Encode planning rules the team already trusts</h4>
+        <p>The hard rules come from practice, not from a model: keep 5 MHz of LTE, keep an
+          anchor, never break contiguity.</p></div>
+      <div class="principle"><div class="num">04</div>
+        <h4>Route uncertainty to people, not guesses</h4>
+        <p>Below 60% confidence a county goes to a manager with the reasons it is
+          uncertain, rather than through on its own.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= 8. SOLUTION -->
+<section id="solution">
+  <div class="wide">
+    <div class="eyebrow">The solution</div>
+    <h2>One screen per county, with the reasoning attached</h2>
+    <p class="lede">Screens from the working prototype. Every number shown is synthetic
+      data for a fictional carrier.</p>
+
+    <!-- map -->
+    <div class="shot">
+      <h3>Map view — where to look first</h3>
+      <p class="prose">The national frame answers “where does this carrier operate” before
+        anything else. Picking a state zooms to it; picking a county zooms again.</p>
+      <div class="shot-figure">
+        <img src="assets/shot-map.png" alt="Map of the contiguous United States with Illinois, Wisconsin and Michigan counties coloured by recommendation." loading="lazy">
+        <span class="pin" style="left:63%; top:33%">1</span>
+        <span class="pin" style="left:22%; top:92%">2</span>
+      </div>
+      <ul class="callouts">
+        <li><span class="n">1</span><span>Counties coloured by recommendation — Carve,
+          Hold, or Review. The colour pair was validated for colour-blind separation, and
+          the recommendation is always written out as text as well.</span></li>
+        <li><span class="n">2</span><span>A legend that names each state rather than
+          relying on colour alone.</span></li>
+      </ul>
+    </div>
+
+    <!-- county detail -->
+    <div class="shot">
+      <h3>One-screen county detail</h3>
+      <p class="prose">Everything an engineer needs to decide a county, in the order they
+        ask for it: what's recommended, how sure the engine is, why, and what changes.</p>
+      <div class="shot-figure tall">
+        <img src="assets/shot-detail.png" alt="The full county detail panel for Cook County, Illinois, scrolling from the recommendation down through spectrum, blocks, charts and hardware." loading="lazy">
+      </div>
+      <figcaption>Scroll inside the frame — this is the full panel at real height.</figcaption>
+    </div>
+
+    <!-- spectrum + blocks -->
+    <div class="two" style="align-items:start">
+      <div class="shot">
+        <h3>Spectrum, before and after</h3>
+        <p class="prose">Each band shows what is owned, what is on LTE, what is on NR, and
+          what the recommendation changes.</p>
+        <div class="shot-figure">
+          <img src="assets/shot-spectrum.png" alt="Before and after bars for each spectrum band." loading="lazy">
+        </div>
+      </div>
+      <div class="shot">
+        <h3>Spectrum block strip</h3>
+        <p class="prose">Real FCC block designations at their real widths across 600, 700,
+          PCS and AWS — so a 6 MHz Lower A and an 11 MHz Upper C are drawn differently,
+          because they are different.</p>
+        <div class="shot-figure">
+          <img src="assets/shot-blocks.png" alt="Block strips for 600, 700, 1900 PCS and 2100 AWS bands, with owned blocks coloured by LTE or NR." loading="lazy">
+        </div>
+      </div>
+    </div>
+
+    <!-- charts -->
+    <div class="shot">
+      <h3>Twelve months of network and device trend</h3>
+      <p class="prose">Congestion and users are two separate charts, never one plot with
+        two scales — and the current figures are printed above them, so a tooltip is never
+        the only way to read a value.</p>
+      <div class="shot-figure">
+        <img src="assets/shot-charts.png" alt="Three charts: LTE versus NR congestion, LTE versus NR users, and the monthly device mix of 5G-capable against LTE-only." loading="lazy">
+        <span class="pin" style="left:5%; top:11%">1</span>
+        <span class="pin" style="left:5%; top:88%">2</span>
+      </div>
+      <ul class="callouts">
+        <li><span class="n">1</span><span>Current values as plain figures above the charts,
+          for the engineer who just wants the number.</span></li>
+        <li><span class="n">2</span><span>Device mix over the same window — the migration
+          that decides whether a county is ready at all.</span></li>
+      </ul>
+    </div>
+
+    <!-- AI card -->
+    <div class="shot">
+      <h3>AI explanation — labelled, and never the decision</h3>
+      <div class="shot-figure">
+        <img src="assets/shot-ai.png" alt="The AI explanation card with a summary, risks to check before approving, and the impact on LTE-only users." loading="lazy">
+        <span class="pin" style="left:88%; top:9%">1</span>
+        <span class="pin" style="left:6%; top:53%">2</span>
+      </div>
+      <ul class="callouts">
+        <li><span class="n">1</span><span>Labelled <em>“AI-generated — verify before
+          approving”</em> on every card, not once in a footer.</span></li>
+        <li><span class="n">2</span><span>Risks are operational checks a planner would
+          actually make, not a restatement of the recommendation. If the explanation is
+          missing, the card falls back to the rule engine's own reasons.</span></li>
+      </ul>
+    </div>
+
+    <!-- adjust -->
+    <div class="shot">
+      <h3>Adjust — the engineer can disagree by degree</h3>
+      <div class="shot-figure">
+        <img src="assets/shot-adjust.png" alt="The adjust panel with a slider controlling how many MHz to shift, showing LTE and NR totals after the change." loading="lazy">
+        <span class="pin" style="left:30%; top:47%">1</span>
+        <span class="pin" style="left:20%; top:80%">2</span>
+      </div>
+      <ul class="callouts">
+        <li><span class="n">1</span><span>The slider changes how much spectrum moves; the
+          before/after bars and the block strip update live as it moves.</span></li>
+        <li><span class="n">2</span><span>Its maximum is capped so LTE can never fall below
+          5 MHz — the interface cannot propose something the rules would
+          reject.</span></li>
+      </ul>
+    </div>
+
+    <!-- review -->
+    <div class="shot">
+      <h3>Manager review — uncertainty goes to a person</h3>
+      <div class="shot-figure">
+        <img src="assets/shot-review.png" alt="The manager review queue listing low-confidence counties with a note explaining why each is uncertain." loading="lazy">
+        <span class="pin" style="left:8%; top:20%">1</span>
+        <span class="pin" style="left:74%; top:31%">2</span>
+      </div>
+      <ul class="callouts">
+        <li><span class="n">1</span><span>Sorted least-confident first, so the hardest call
+          is the first one on screen.</span></li>
+        <li><span class="n">2</span><span>Each row says what cost it confidence — a
+          hardware gap, a thin market — and takes an approve or reject with a
+          comment.</span></li>
+      </ul>
+    </div>
+
+    <!-- summary -->
+    <div class="shot">
+      <h3>Summary — what the plan adds up to</h3>
+      <div class="shot-figure">
+        <img src="assets/shot-summary.png" alt="Summary tab showing MHz refarmed, counties decided, and breakdowns by recommendation and by state." loading="lazy">
+      </div>
+      <figcaption>Totals by decision and by state, including how much of the recommended
+        spectrum has actually been approved.</figcaption>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= 9. AI LAYER -->
+<section id="ai">
+  <div class="wrap">
+    <div class="eyebrow">Designing the AI layer</div>
+    <h2>The rule engine decides. The model explains.</h2>
+
+    <div class="prose">
+      <p>The split is enforced by structure, not by instruction. Explanations are written to
+      a separate file and never read back into the recommendations. The chat endpoint has no
+      write path. The MCP server exposes read-only tools, and a test asserts that no
+      write tool is ever added.</p>
+      <p>That matters for two reasons the interviews made plain: engineers won't trust a
+      recommendation they can't audit, and <strong>a tool that breaks basic planning logic
+      gets dismissed entirely</strong>. A model that could quietly change a confidence score
+      would put both at risk.</p>
+    </div>
+
+    <h3>Guardrails</h3>
+    <div class="cards">
+      <div class="card"><h4>Data-only answers</h4>
+        <p>The model sees one county's data and nothing else, so a question about another
+          county can't be answered from it — enforced by what it can see, not only by what
+          it's told.</p></div>
+      <div class="card"><h4>Number validation</h4>
+        <p>Every number in the output is checked against the numbers in the input. A
+          failure names the offending figure and retries.</p></div>
+      <div class="card"><h4>Visible AI labels</h4>
+        <p>Every generated card carries “AI-generated — verify before approving”.</p></div>
+      <div class="card"><h4>Rule-based fallback</h4>
+        <p>If an explanation is missing or fails validation, the screen shows the rule
+          engine's own reasons instead. It never depends on the model being available.</p></div>
+    </div>
+
+    <h3>MCP server</h3>
+    <div class="prose">
+      <p>The same data the engineer sees is exposed to an agent through four read-only
+      tools — <code>get_county</code>, <code>list_review_queue</code>,
+      <code>get_state_summary</code>, <code>compare_counties</code> — so a conversation
+      about the plan and the plan itself cannot drift apart. Asking “which Michigan counties
+      are waiting for manager review and why?” returns the same numbers, confidence scores
+      and rules that are on screen.</p>
+    </div>
+
+    <h3>What building it actually taught me</h3>
+    <div class="prose">
+      <p>Early versions of the prompt sometimes rounded or restated numbers differently
+      from the source data, so I added a validation step that checks every number against
+      the input. I also found short, role-specific explanations read better than long ones.</p>
+      <p>Four assumptions I held going in turned out to be wrong, and each one changed how
+      the layer is built. These are measured from the build across all 257 counties, not
+      from user testing.</p>
+    </div>
+    <table class="plain">
+      <thead><tr><th>What I expected</th><th>What I measured</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>A carefully worded prompt would stop internal jargon reaching the engineer.</td>
+          <td>It got to about <strong>93%</strong>. Twenty-one of 257 counties still
+            mentioned a rule ID or a raw field name. What closed the gap was making it a
+            check that can fail and retry — not better wording.</td>
+        </tr>
+        <tr>
+          <td>Validating every number would catch the dangerous mistakes.</td>
+          <td>It catches invented figures, not wrong reasoning <em>about</em> figures. Asked
+            which layers still carry LTE after a carve, the chat listed a band that the
+            carve empties to zero — every number in the sentence was correct. The fix was to
+            stop asking the model to infer it and supply the after-state directly.</td>
+        </tr>
+        <tr>
+          <td>“1–2 risks” in the prompt would produce 1–2 risks.</td>
+          <td>It produced three often enough to matter. Constraining the output schema
+            fixed it across all 257 at once.</td>
+        </tr>
+        <tr>
+          <td>Asking for risks would produce useful risks.</td>
+          <td>The first version asked the engineer to confirm the engine's own bookkeeping.
+            Naming what a real pre-approval check looks like — backhaul, site readiness,
+            device migration — changed the output entirely.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================================================= 10. FUTURE JOURNEY -->
+<section id="future">
+  <div class="wide">
+    <div class="eyebrow">Future-state journey map</div>
+    <h2>The same stages, with the waiting taken out of the middle</h2>
+    <p class="lede">The Capacity team still reviews — but only the counties the tool flags,
+      instead of every candidate.</p>
+
+    <div class="scroller">
+      <div class="jm">
+        <div class="jm-row head">
+          <div>Stage</div>
+          <div>Request capacity check</div>
+          <div>Capacity team reviews exceptions only</div>
+          <div>Check hardware readiness</div>
+          <div>Check spectrum ownership &amp; contiguity</div>
+          <div>Build plan</div>
+          <div>Manager approval</div>
+          <div>Market kickoff call</div>
+          <div>Ops implements</div>
+          <div>Performance team checks KPIs</div>
+        </div>
+
+        <div class="jm-row">
+          <div>Actions</div>
+          <div>Open the map, filter to candidates</div>
+          <div>Review only the counties flagged for review</div>
+          <div>Read site readiness on the county screen</div>
+          <div>Read the block strip; contiguity already resolved</div>
+          <div>Confirm, adjust, or reject each county</div>
+          <div>Approve from the review queue with a comment</div>
+          <div>Share a link to the county</div>
+          <div>Hand over the approved plan</div>
+          <div>Compare KPIs against the recorded decision</div>
+        </div>
+
+        <div class="jm-row">
+          <div>Tools</div>
+          <div>Spectrum Pivot Advisor</div>
+          <div>Spectrum Pivot Advisor</div>
+          <div>Same screen</div>
+          <div>Same screen</div>
+          <div>Same screen</div>
+          <div>Manager review queue</div>
+          <div>Shared county link</div>
+          <div>Tracked in the tool</div>
+          <div>Performance data</div>
+        </div>
+
+        <div class="jm-row">
+          <div>What changes</div>
+          <div class="win">Candidates are visible before anyone is asked</div>
+          <div class="win">Exceptions only — not every county waits on a reply</div>
+          <div class="win">Hardware sits on the same screen as the decision</div>
+          <div class="win">Block adjacency is computed, not read off a band plan</div>
+          <div class="win">Four sources already reconciled; first pass is on one screen</div>
+          <div class="win">The manager sees the rules and the reasons, not just the answer</div>
+          <div class="win">The reasoning travels with the county</div>
+          <div class="win">Approval and handoff tracked in the tool, not email and Excel</div>
+          <div class="win">The decision and its reasons are still there to compare against</div>
+        </div>
+
+        <div class="emo">
+          <div class="lab">Emotion</div>
+          <svg viewBox="0 0 900 92" preserveAspectRatio="none" role="img"
+               aria-label="Emotion stays high across the whole future-state journey, with no deep dip at the capacity stage.">
+            <line x1="0" y1="46" x2="900" y2="46" stroke="currentColor" stroke-opacity=".14"/>
+            <polyline points="50,26 150,34 250,24 350,24 450,20 550,26 650,28 750,32 850,24"
+                      fill="none" stroke="#2e8b62" stroke-width="2.5"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+            <g fill="#2e8b62">
+              <circle cx="50" cy="26" r="4.5"/><circle cx="150" cy="34" r="4.5"/>
+              <circle cx="250" cy="24" r="4.5"/><circle cx="350" cy="24" r="4.5"/>
+              <circle cx="450" cy="20" r="6"/><circle cx="550" cy="26" r="4.5"/>
+              <circle cx="650" cy="28" r="4.5"/><circle cx="750" cy="32" r="4.5"/>
+              <circle cx="850" cy="24" r="4.5"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= 11. OUTCOMES -->
+<section id="outcomes">
+  <div class="wrap">
+    <div class="eyebrow">Outcomes &amp; what I'd do next</div>
+    <h2>Estimated, not measured</h2>
+
+    <div class="note">
+      <p style="margin:0">Today, waiting for the Capacity team's feedback takes
+      <strong>3 days to a week</strong>, and our team takes about <strong>a week</strong> to
+      finish the analysis and plan. Spectrum Pivot Advisor aims to put the first pass on one
+      screen. This is based on my own experience; <strong>a usability test is the next
+      step</strong>.</p>
+    </div>
+
+    <h3>Next</h3>
+    <ul class="tight">
+      <li>Usability test with engineers.</li>
+      <li>Live data via MCP.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ==================================================== 12. LIMITATIONS -->
+<section id="limitations">
+  <div class="wrap">
+    <div class="eyebrow">Honest limitations</div>
+    <h2>What this is not</h2>
+    <div class="cards">
+      <div class="card"><h4>Synthetic data</h4>
+        <p>All network, device, hardware, and spectrum figures are generated. Only the
+          Census county data is real.</p></div>
+      <div class="card"><h4>Fictional carrier</h4>
+        <p>“GLA - Mobile” does not exist. No real carrier's holdings or performance appear
+          anywhere.</p></div>
+      <div class="card"><h4>Rule-based decisions</h4>
+        <p>The recommendations come from encoded planning rules, not a learned model.</p></div>
+      <div class="card"><h4>Simplified band plan</h4>
+        <p>Four bands are modelled at block level; 2500 MHz is held as bulk spectrum with
+          no block grid.</p></div>
+      <div class="card"><h4>Not yet usability tested</h4>
+        <p>No engineer has used this under real conditions. Every outcome above is an
+          estimate.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p style="margin-bottom:14px"><span class="synthetic">Synthetic data — fictional carrier</span></p>
+    <p style="margin:0">Census data is real; all network, device, hardware, and spectrum
+      data is synthetic for a fictional carrier.
+      <a href="prototype.html">Open the prototype →</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

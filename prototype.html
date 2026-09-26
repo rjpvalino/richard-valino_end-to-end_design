@@ -1,0 +1,1279 @@
+<!doctype html>
+<!-- Dark only: the tool is meant to be read in a dim ops room, and pinning the
+     theme here means the case-study screenshots always match the live thing. -->
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spectrum Pivot Advisor — Prototype</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+/* ---------------------------------------------------------------- tokens
+   Palette from the validated reference instance. Two scales:
+     LTE / NR        - categorical slots 1 & 2 (blue, orange)
+     Carve/Hold/Rev  - aqua / yellow / violet, validated all-pairs in BOTH
+                       modes (worst CVD dE 9.1 light, 8.4 dark)
+   Light-mode aqua and yellow sit below 3:1 on the surface, so the relief
+   rule applies: the recommendation word is always present as text, never
+   carried by colour alone. */
+:root {
+  color-scheme: light;
+  --page:#f9f9f7; --surface:#fcfcfb; --surface-2:#f2f1ed;
+  --ink:#0b0b0b; --ink-2:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --axis:#c3c2b7; --line:#e1e0d9;
+  --lte:#2a78d6; --nr:#eb6834;
+  --carve:#1baf7a; --hold:#eda100; --review:#4a3aa7;
+  --accent:#2a78d6; --accent-ink:#fff;
+  --shadow:0 1px 2px rgba(0,0,0,.05), 0 4px 12px rgba(0,0,0,.05);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --page:#0d0d0d; --surface:#1a1a19; --surface-2:#232322;
+    --ink:#fff; --ink-2:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --axis:#383835; --line:#2c2c2a;
+    --lte:#3987e5; --nr:#d95926;
+    --carve:#199e70; --hold:#c98500; --review:#9085e9;
+    --accent:#3987e5;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 4px 12px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page:#0d0d0d; --surface:#1a1a19; --surface-2:#232322;
+  --ink:#fff; --ink-2:#c3c2b7; --muted:#898781;
+  --grid:#2c2c2a; --axis:#383835; --line:#2c2c2a;
+  --lte:#3987e5; --nr:#d95926;
+  --carve:#199e70; --hold:#c98500; --review:#9085e9;
+  --accent:#3987e5;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 4px 12px rgba(0,0,0,.3);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--page); color:var(--ink);
+  font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{margin:0; font-weight:600; letter-spacing:-.01em}
+button{font:inherit; cursor:pointer}
+[hidden]{display:none!important}
+
+/* ---------------------------------------------------------------- chrome */
+header{
+  display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  padding:12px 20px; background:var(--surface);
+  border-bottom:1px solid var(--line); position:sticky; top:0; z-index:500;
+}
+.brand{display:flex; align-items:baseline; gap:10px; margin-right:auto}
+.brand h1{font-size:17px}
+.brand .sub{color:var(--muted); font-size:12px}
+.badge{
+  font-size:11px; padding:3px 9px; border-radius:999px;
+  background:var(--surface-2); color:var(--ink-2); border:1px solid var(--line);
+  white-space:nowrap;
+}
+.tabs{display:flex; gap:2px; background:var(--surface-2); padding:3px; border-radius:var(--r)}
+.tabs button{
+  border:0; background:transparent; color:var(--ink-2);
+  padding:6px 14px; border-radius:7px; font-size:13px; font-weight:500;
+}
+.tabs button[aria-selected="true"]{background:var(--surface); color:var(--ink); box-shadow:var(--shadow)}
+.back-btn{
+  border:1px solid var(--line); background:var(--surface-2); color:var(--ink-2);
+  padding:7px 13px; border-radius:8px; font-size:13px; font-weight:500;
+  text-decoration:none; white-space:nowrap;
+}
+.back-btn:hover{border-color:var(--muted); color:var(--ink)}
+
+/* ---------------------------------------------------------------- filters
+   One row, above the content - never inside a chart card. */
+.filters{
+  display:flex; gap:18px; align-items:flex-end; flex-wrap:wrap;
+  padding:12px 20px; background:var(--surface); border-bottom:1px solid var(--line);
+}
+.field{display:flex; flex-direction:column; gap:4px}
+.field label{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em}
+.field select,.field input[type=search],.field input[type=text],.field textarea{
+  background:var(--surface-2); color:var(--ink); border:1px solid var(--line);
+  border-radius:8px; padding:6px 9px; font:inherit; min-width:120px;
+}
+.conf-range{display:flex; align-items:center; gap:8px}
+.conf-range input[type=range]{width:110px; accent-color:var(--accent)}
+.filter-count{font-size:12px; color:var(--muted); margin-left:auto; white-space:nowrap}
+.linkish{background:none; border:0; color:var(--accent); font-size:12px; padding:0; text-decoration:underline}
+
+/* ---------------------------------------------------------------- layout */
+main{padding:16px 20px 40px}
+.split{display:grid; grid-template-columns:minmax(380px,0.85fr) minmax(460px,1.15fr); gap:16px; align-items:start}
+@media (max-width:1100px){ .split{grid-template-columns:1fr} }
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); box-shadow:var(--shadow)}
+.card>h3{padding:12px 14px 0; font-size:13px; letter-spacing:.01em}
+.card>.hint{padding:2px 14px 0; color:var(--muted); font-size:12px}
+.card>.body{padding:14px}
+
+/* ---------------------------------------------------------------- map */
+/* The map plane is the page colour so the state fills (surface-2) read
+   against it - both were surface-2 at first and the US outline vanished. */
+/* The map fills its pane. Capping it to the height the US actually needs was
+   tried and looked worse: empty ground inside a map reads as normal padding,
+   empty space below the card reads as a layout bug. */
+#map{height:calc(100vh - 210px); min-height:440px; border-radius:var(--r); background:var(--page)}
+.leaflet-container{background:var(--page); font:inherit; border-radius:var(--r)}
+.map-wrap{position:relative}
+.map-reset{
+  position:absolute; right:10px; top:10px; z-index:450;
+  border:1px solid var(--line); background:var(--surface); color:var(--ink-2);
+  padding:5px 11px; border-radius:7px; font-size:12px; box-shadow:var(--shadow);
+}
+.county-tip{
+  background:var(--surface); color:var(--ink); border:1px solid var(--line);
+  border-radius:8px; box-shadow:var(--shadow); padding:7px 9px; font-size:12px;
+}
+.county-tip strong{display:block; font-size:13px; margin-bottom:2px}
+.leaflet-tooltip-top:before,.leaflet-tooltip-bottom:before{border:0}
+.legend{display:flex; gap:14px; flex-wrap:wrap; padding:10px 14px; border-top:1px solid var(--line)}
+.legend span{display:flex; align-items:center; gap:6px; font-size:12px; color:var(--ink-2)}
+.sw{width:11px; height:11px; border-radius:3px; flex:none}
+
+/* ---------------------------------------------------------------- detail */
+.detail{max-height:calc(100vh - 210px); overflow-y:auto; scrollbar-width:thin}
+.empty{display:grid; place-items:center; height:calc(100vh - 212px); min-height:440px; color:var(--muted); text-align:center; padding:24px}
+.dt-head{padding:14px 16px; border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--surface); z-index:3; border-radius:var(--r) var(--r) 0 0}
+.dt-head .row1{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.dt-head h2{font-size:17px}
+.dt-head .meta{color:var(--muted); font-size:12px; margin-top:3px}
+.pill{
+  font-size:11px; font-weight:600; padding:3px 10px; border-radius:999px;
+  color:#fff; letter-spacing:.02em;
+}
+.pill.Carve{background:var(--carve)} .pill.Hold{background:var(--hold); color:#221a00}
+.pill.Review{background:var(--review)}
+.sec{padding:14px 16px; border-top:1px solid var(--line)}
+.sec:first-of-type{border-top:0}
+.sec h4{font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:9px}
+
+.conf-wrap{display:flex; align-items:center; gap:10px}
+.conf-bar{flex:1; height:8px; background:var(--surface-2); border-radius:999px; overflow:hidden}
+.conf-fill{height:100%; border-radius:999px}
+.conf-num{font-variant-numeric:tabular-nums; font-weight:600; min-width:48px; text-align:right}
+
+ol.reasons{margin:0; padding-left:18px} ol.reasons li{margin-bottom:6px; color:var(--ink-2)}
+ol.reasons li:last-child{margin-bottom:0}
+details.rules{margin-top:10px}
+details.rules summary{cursor:pointer; color:var(--accent); font-size:12px}
+.rule{display:flex; gap:8px; padding:6px 0; border-bottom:1px dotted var(--line); font-size:12px}
+.rule:last-child{border-bottom:0}
+.rule code{
+  font:600 11px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;
+  background:var(--surface-2); padding:1px 6px; border-radius:5px; height:fit-content; flex:none;
+}
+.rule .rt{color:var(--ink-2)} .rule .rt b{color:var(--ink); font-weight:600; display:block}
+
+.flags{display:flex; flex-direction:column; gap:6px}
+.flag{display:flex; gap:8px; align-items:flex-start; font-size:12px; color:var(--ink-2)}
+.flag .dot{width:7px; height:7px; border-radius:50%; margin-top:6px; flex:none}
+.sev-high{background:#d03b3b} .sev-medium{background:#ec835a} .sev-low{background:var(--muted)}
+
+/* stat rows - values readable without hovering a chart */
+.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(118px,1fr)); gap:10px}
+.stat{background:var(--surface-2); border-radius:8px; padding:9px 11px}
+.stat .k{font-size:11px; color:var(--muted)}
+.stat .v{font-size:17px; font-weight:600; margin-top:1px}
+.stat .v small{font-size:11px; font-weight:500; color:var(--muted)}
+
+.chart-box{position:relative; height:170px; margin-top:4px}
+.chart-cap{display:flex; justify-content:space-between; align-items:baseline; gap:10px}
+.chart-cap h4{margin:0}
+
+/* spectrum bars */
+.spec-row{margin-bottom:11px}
+.spec-row:last-child{margin-bottom:0}
+.spec-lab{display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px}
+.spec-lab .nm{font-weight:600}
+.spec-lab .mv{color:var(--muted); font-variant-numeric:tabular-nums}
+.bar{display:flex; height:16px; background:var(--surface-2); border-radius:4px; overflow:hidden; gap:2px}
+.bar i{display:block; height:100%}
+.bar i.l{background:var(--lte)} .bar i.n{background:var(--nr)}
+.bar i.u{background:repeating-linear-gradient(45deg,var(--surface-2),var(--surface-2) 3px,var(--line) 3px,var(--line) 6px)}
+.bar i:first-child{border-radius:4px 0 0 4px} .bar i:last-child{border-radius:0 4px 4px 0}
+.ba-grid{display:grid; grid-template-columns:38px 1fr; gap:6px 9px; align-items:center}
+.ba-grid .tag{font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; text-align:right}
+
+/* block strips - one per banded band, cells sized to their real MHz width */
+.bandstrip{margin-bottom:11px}
+.bandstrip:last-of-type{margin-bottom:0}
+.pcs{display:flex; gap:2px; align-items:stretch}
+.pcs .blk{
+  border-radius:4px; padding:6px 1px 5px; text-align:center; min-width:0;
+  font:600 10px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;
+  background:var(--surface-2); color:var(--muted); position:relative;
+  border:1px solid transparent; overflow:hidden;
+}
+.pcs .blk .bn{display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.pcs .blk .bw{display:block; font-size:9px; font-weight:500; opacity:.75; margin-top:1px}
+.pcs .blk.lte{background:var(--lte); color:#fff}
+.pcs .blk.nr{background:var(--nr); color:#fff}
+.pcs .blk.unowned{background:repeating-linear-gradient(45deg,var(--surface-2),var(--surface-2) 3px,var(--line) 3px,var(--line) 6px)}
+.pcs .blk.moving{outline:2px solid var(--ink); outline-offset:1px}
+.pcs .blk .mk{display:block; font-size:9px; font-weight:700; margin-top:2px; min-height:11px}
+.pcs-key{display:flex; gap:13px; flex-wrap:wrap; margin-top:9px; font-size:11px; color:var(--ink-2)}
+/* the swatch is an <i>, which is inline - it needs a flex parent or it
+   collapses to zero and the key legend silently loses its colours */
+.pcs-key span,.legend span{display:inline-flex; align-items:center; gap:6px}
+
+/* AI card */
+.ai{border:1px solid var(--line); border-radius:var(--r); overflow:hidden}
+.ai-hd{
+  display:flex; align-items:center; gap:8px; padding:8px 12px;
+  background:var(--surface-2); font-size:11px; color:var(--ink-2);
+}
+.ai-hd .tagline{margin-left:auto; color:var(--muted)}
+.ai-bd{padding:12px}
+.ai-bd p{margin:0 0 9px}
+.ai-bd .lbl{font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:3px}
+.ai-bd ul{margin:0 0 9px; padding-left:17px; color:var(--ink-2)}
+.fallback{font-size:12px; color:var(--muted); font-style:italic}
+
+/* actions */
+.actions{display:flex; gap:8px; flex-wrap:wrap}
+.btn{
+  border:1px solid var(--line); background:var(--surface-2); color:var(--ink);
+  padding:8px 14px; border-radius:8px; font-size:13px; font-weight:500;
+}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:transparent}
+.btn.danger{color:#d03b3b}
+.btn:disabled{opacity:.45; cursor:not-allowed}
+.panel{margin-top:11px; padding:12px; background:var(--surface-2); border-radius:8px}
+.slider-row{display:flex; align-items:center; gap:11px; margin:9px 0}
+.slider-row input[type=range]{flex:1; accent-color:var(--accent)}
+.slider-val{font-variant-numeric:tabular-nums; font-weight:600; min-width:74px; text-align:right}
+.note{font-size:12px; color:var(--muted); margin-top:7px}
+.decision{
+  display:flex; gap:9px; align-items:center; padding:9px 12px; border-radius:8px;
+  background:var(--surface-2); font-size:13px; margin-bottom:11px;
+}
+.decision .mark{font-weight:700}
+.decision.approved .mark{color:var(--carve)} .decision.rejected .mark{color:#d03b3b}
+
+/* chat */
+.chat-log{max-height:230px; overflow-y:auto; display:flex; flex-direction:column; gap:9px; margin-bottom:10px}
+.msg{padding:8px 11px; border-radius:9px; font-size:13px; max-width:92%}
+.msg.you{background:var(--accent); color:var(--accent-ink); align-self:flex-end}
+.msg.bot{background:var(--surface-2); color:var(--ink); align-self:flex-start}
+.msg.bot.flagged{border:1px solid #d03b3b}
+.chat-in{display:flex; gap:8px}
+.chat-in input{flex:1}
+.offline{
+  padding:11px; background:var(--surface-2); border-radius:8px;
+  font-size:12px; color:var(--ink-2);
+}
+.offline code{font:12px ui-monospace,Consolas,monospace; background:var(--surface); padding:1px 5px; border-radius:4px}
+
+/* tables */
+table{width:100%; border-collapse:collapse; font-size:13px}
+th,td{text-align:left; padding:7px 9px; border-bottom:1px solid var(--line)}
+th{font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:600}
+td.num,th.num{text-align:right; font-variant-numeric:tabular-nums}
+tbody tr:last-child td{border-bottom:0}
+.dtable{max-height:190px; overflow:auto; margin-top:6px}
+
+/* review queue */
+.q-item{padding:13px 16px; border-bottom:1px solid var(--line)}
+.q-item:last-child{border-bottom:0}
+.q-top{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:5px}
+.q-top .nm{font-weight:600}
+.q-top .cf{font-variant-numeric:tabular-nums; color:var(--muted); font-size:12px}
+.q-note{font-size:13px; color:var(--ink-2); margin:6px 0 9px; max-width:80ch}
+.q-actions{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.q-actions input{flex:1; min-width:170px}
+
+/* summary */
+.tiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; margin-bottom:16px}
+.tile{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:15px; box-shadow:var(--shadow)}
+.tile .k{font-size:12px; color:var(--muted)}
+.tile .v{font-size:29px; font-weight:600; margin-top:3px; letter-spacing:-.02em}
+.tile .v small{font-size:13px; color:var(--muted); font-weight:500}
+.sumgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(310px,1fr)); gap:16px}
+.mini{display:flex; height:10px; border-radius:999px; overflow:hidden; gap:2px; margin:9px 0 5px}
+.mini i{display:block; height:100%}
+
+/* ?expand=1 lets the whole county panel render at full height instead of
+   scrolling inside its card - for capturing screenshots and for printing. */
+body.expand .detail{max-height:none; overflow:visible}
+body.expand #map{height:560px}
+body.expand .empty{height:560px}
+body.expand .dt-head{position:static}
+
+#loading{display:grid; place-items:center; height:70vh; text-align:center; padding:24px; color:var(--ink-2)}
+.err{max-width:560px; text-align:left; background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:18px; box-shadow:var(--shadow)}
+.err h3{margin-bottom:8px} .err code{display:block; background:var(--surface-2); padding:9px 11px; border-radius:7px; margin:9px 0; font:12px ui-monospace,Consolas,monospace}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1>Spectrum Pivot Advisor</h1>
+    <span class="sub">LTE&nbsp;→&nbsp;5G&nbsp;NR spectrum planning · IL&nbsp;/&nbsp;WI&nbsp;/&nbsp;MI</span>
+  </div>
+  <span class="badge">Synthetic data — fictional carrier</span>
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true"  data-tab="map">Map</button>
+    <button role="tab" aria-selected="false" data-tab="review">Manager Review <span id="qBadge"></span></button>
+    <button role="tab" aria-selected="false" data-tab="summary">Summary</button>
+  </div>
+  <a class="back-btn" href="index.html">← Case study</a>
+</header>
+
+<div id="loading"><div><div style="font-size:15px;margin-bottom:6px">Loading county data…</div>
+<div style="color:var(--muted);font-size:13px">5 datasets, 257 counties</div></div></div>
+
+<div id="app" hidden>
+
+  <!-- filters: one row, above everything, never inside a chart card -->
+  <div class="filters" id="filterBar">
+    <div class="field"><label for="fState">State</label>
+      <select id="fState"><option value="">All states</option><option value="IL">Illinois</option><option value="WI">Wisconsin</option><option value="MI">Michigan</option></select></div>
+    <div class="field"><label for="fTier">Market type</label>
+      <select id="fTier"><option value="">All types</option><option value="urban">Urban</option><option value="suburban">Suburban</option><option value="rural">Rural</option></select></div>
+    <div class="field"><label for="fRec">Recommendation</label>
+      <select id="fRec"><option value="">All</option><option>Carve</option><option>Hold</option><option>Review</option></select></div>
+    <div class="field"><label>Confidence</label>
+      <div class="conf-range">
+        <input type="range" id="fMin" min="0" max="100" value="0" aria-label="Minimum confidence">
+        <span class="conf-num" id="fLabel" style="min-width:64px">0–100</span>
+        <input type="range" id="fMax" min="0" max="100" value="100" aria-label="Maximum confidence">
+      </div></div>
+    <div class="field"><label for="fSearch">County</label>
+      <input type="search" id="fSearch" placeholder="Search name…"></div>
+    <span class="filter-count"><span id="fCount"></span> · <button class="linkish" id="fReset">Reset</button></span>
+  </div>
+
+  <main>
+    <!-- ============================================ MAP -->
+    <section id="tab-map">
+      <div class="split">
+        <div class="card">
+          <div class="map-wrap">
+            <div id="map"></div>
+            <button class="map-reset" id="mapReset" hidden>Zoom out to US</button>
+          </div>
+          <div class="legend">
+            <span><i class="sw" style="background:var(--carve)"></i>Carve</span>
+            <span><i class="sw" style="background:var(--hold)"></i>Hold</span>
+            <span><i class="sw" style="background:var(--review)"></i>Review</span>
+            <span><i class="sw" style="background:var(--surface-2);border:1px solid var(--line)"></i>Filtered out</span>
+            <span style="color:var(--muted)">Click a county for the full picture</span>
+          </div>
+        </div>
+        <div class="card detail" id="detail">
+          <div class="empty"><div>
+            <div style="font-size:15px;color:var(--ink);margin-bottom:6px">No county selected</div>
+            Pick one on the map to see its recommendation,<br>the rules behind it, and the spectrum change.
+          </div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ REVIEW -->
+    <section id="tab-review" hidden>
+      <div class="card" style="max-width:960px; margin:0 auto">
+        <h3>Manager review queue</h3>
+        <p class="hint" id="qHint"></p>
+        <div id="queue"></div>
+      </div>
+    </section>
+
+    <!-- ============================================ SUMMARY -->
+    <section id="tab-summary" hidden>
+      <div id="summary"></div>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+"use strict";
+
+/* ================================================================ state */
+const DB = {};                 // loaded datasets
+let map, geoLayer, stateLayer, usBounds = null;
+let selected = null, charts = {}, chatOnline = false;
+let showTable = false;
+const REC = ["Carve", "Hold", "Review"];
+const MIN_LTE = 5;             // HR-01 floor, mirrored from the rule engine
+const DEFAULT_FIPS = "17031";  // Cook County, IL - opens by default
+
+/* Decisions live in the browser only - this is a prototype, not a system of
+   record. Wrapped because storage throws outright in some contexts. */
+const store = {
+  read(){ try { return JSON.parse(localStorage.getItem("spectrumpivot.decisions") || "{}"); }
+          catch { return {}; } },
+  write(v){ try { localStorage.setItem("spectrumpivot.decisions", JSON.stringify(v)); } catch {} }
+};
+let decisions = store.read();
+
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt = n => n.toLocaleString("en-US");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
+  ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+
+/* ================================================================ load */
+async function boot(){
+  const files = {
+    counties: "data/counties.json", hardware: "data/hardware.json",
+    spectrum: "data/spectrum.json", recs: "data/recommendations.json",
+    geo: "data/counties.geojson", states: "data/us_states.geojson",
+    expl: "data/explanations.json"
+  };
+  try {
+    const got = await Promise.all(Object.values(files).map(async u => {
+      const r = await fetch(u);
+      if (!r.ok) throw new Error(`${u} → HTTP ${r.status}`);
+      return r.json();
+    }));
+    Object.keys(files).forEach((k, i) => DB[k] = got[i]);
+  } catch (e) {
+    document.getElementById("loading").innerHTML =
+      `<div class="err"><h3>Could not load the data files</h3>
+       <p style="color:var(--ink-2)">${esc(e.message)}</p>
+       <p style="color:var(--ink-2)">Opening this file directly with <code style="display:inline">file://</code>
+       blocks <code style="display:inline">fetch</code>. Serve the folder over HTTP instead:</p>
+       <code>cd refarm_advisor<br>py -3.12 -m http.server 8080</code>
+       <p style="color:var(--ink-2)">then open <b>http://localhost:8080/prototype.html</b></p></div>`;
+    return;
+  }
+
+  DB.byFips = {};
+  DB.counties.forEach(c => DB.byFips[c.fips] = c);
+  DB.expl = DB.expl.counties || {};
+
+  document.getElementById("loading").hidden = true;
+  document.getElementById("app").hidden = false;
+
+  // expand changes the map's height, so it has to be set before Leaflet
+  // measures the container - otherwise the fit is computed against the
+  // wrong box and the polygons sit in a pool of empty space.
+  if (new URLSearchParams(location.search).get("expand"))
+    document.body.classList.add("expand");
+
+  initTabs(); initFilters(); initMap();
+  renderQueue(); renderSummary(); applyFilters();
+  pingChat();
+
+  // Deep link: ?fips=17031 opens a county, ?tab=summary opens a tab. Makes a
+  // specific county shareable, which is how this would actually get passed
+  // between an engineer and a manager.
+  const p = new URLSearchParams(location.search);
+  const tab = p.get("tab");
+  if (tab && ["map","review","summary"].includes(tab))
+    document.querySelector(`.tabs button[data-tab="${tab}"]`).click();
+  // Cook County opens by default so the screen lands on a worked example
+  // rather than an empty panel. A ?fips= link overrides it and zooms.
+  const f = p.get("fips");
+  if (f && DB.recs.counties[f]) selectCounty(f);
+  else if (DB.recs.counties[DEFAULT_FIPS]) selectCounty(DEFAULT_FIPS, false);
+}
+
+/* The theme is pinned to dark on the <html> element, so there is no toggle and
+   nothing to initialise. The light tokens stay in the stylesheet because the
+   dark ones are defined as overrides of them. */
+
+/* ================================================================ tabs */
+function initTabs(){
+  document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => {
+    document.querySelectorAll(".tabs button").forEach(x =>
+      x.setAttribute("aria-selected", String(x === b)));
+    ["map","review","summary"].forEach(t =>
+      document.getElementById("tab-" + t).hidden = (t !== b.dataset.tab));
+    document.getElementById("filterBar").hidden = (b.dataset.tab !== "map");
+    if (b.dataset.tab === "map" && map) setTimeout(() => map.invalidateSize(), 40);
+    if (b.dataset.tab === "summary") renderSummary();
+    if (b.dataset.tab === "review") renderQueue();
+  });
+}
+
+/* ================================================================ filters */
+function initFilters(){
+  const ids = ["fState","fTier","fRec","fMin","fMax","fSearch"];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener(el.type === "range" || el.type === "search" ? "input" : "change", () => {
+      if (id === "fMin" || id === "fMax") {
+        const a = +document.getElementById("fMin").value, b = +document.getElementById("fMax").value;
+        if (a > b) document.getElementById(id === "fMin" ? "fMax" : "fMin").value = String(a > b ? (id==="fMin"?a:b) : 0);
+      }
+      applyFilters();
+      // Picking a state drills the map into it; clearing it pulls back out.
+      if (id === "fState") fitTo(el.value ? "state" : "us", el.value);
+    });
+  });
+  document.getElementById("fReset").onclick = () => {
+    document.getElementById("fState").value = ""; document.getElementById("fTier").value = "";
+    document.getElementById("fRec").value = ""; document.getElementById("fSearch").value = "";
+    document.getElementById("fMin").value = "0"; document.getElementById("fMax").value = "100";
+    applyFilters();
+    fitTo("us");
+  };
+}
+
+function passes(fips){
+  const c = DB.byFips[fips], r = DB.recs.counties[fips];
+  const st = document.getElementById("fState").value;
+  const ti = document.getElementById("fTier").value;
+  const re = document.getElementById("fRec").value;
+  const lo = +document.getElementById("fMin").value, hi = +document.getElementById("fMax").value;
+  const q  = document.getElementById("fSearch").value.trim().toLowerCase();
+  if (st && c.state !== st) return false;
+  if (ti && c.tier !== ti) return false;
+  if (re && r.recommendation !== re) return false;
+  if (r.confidence < Math.min(lo,hi) || r.confidence > Math.max(lo,hi)) return false;
+  if (q && !c.name.toLowerCase().includes(q)) return false;
+  return true;
+}
+
+function applyFilters(){
+  const lo = +document.getElementById("fMin").value, hi = +document.getElementById("fMax").value;
+  document.getElementById("fLabel").textContent = `${Math.min(lo,hi)}–${Math.max(lo,hi)}`;
+  const n = Object.keys(DB.recs.counties).filter(passes).length;
+  document.getElementById("fCount").textContent = `${n} of 257 counties`;
+  restyleMap();
+}
+
+/* ================================================================ map */
+const recColor = r => r === "Carve" ? css("--carve") : r === "Hold" ? css("--hold") : css("--review");
+
+/* The map drills down: whole US -> state -> county. `fitTo` is the single
+   place that moves the view, so the three levels cannot disagree. */
+function fitTo(level, key){
+  if (!map) return;
+  let bounds = null, maxZoom = 10;
+  if (level === "us") {
+    bounds = usBounds; maxZoom = 6;
+  } else if (level === "state") {
+    const lyrs = stateLayer.getLayers()
+      .filter(l => l.feature.properties.state === key);
+    if (lyrs.length) {
+      bounds = lyrs.reduce((b, l) => b ? b.extend(l.getBounds()) : l.getBounds(), null);
+      maxZoom = 8;
+    }
+  } else if (level === "county") {
+    const l = geoLayer.getLayers().find(x => x.feature.properties.fips === key);
+    if (l) { bounds = l.getBounds(); maxZoom = 9; }
+  }
+  if (bounds) map.flyToBounds(bounds, { padding:[26,26], maxZoom, duration:0.6 });
+  const btn = document.getElementById("mapReset");
+  if (btn) btn.hidden = level === "us";
+}
+
+function initMap(){
+  map = L.map("map", { zoomControl:true, attributionControl:false,
+                       scrollWheelZoom:true, minZoom:3, maxZoom:11 });
+
+  // No basemap on purpose: a tile layer adds an external dependency and
+  // washes out a choropleth. The state outlines are the context instead.
+  // The lower 48 are the context frame. Alaska and Hawaii are in the data but
+  // not drawn: fitting to all 50 shrinks the three-state footprint to a speck,
+  // and leaving them in while fitting to the 48 crops Alaska into the corner,
+  // which reads as a rendering accident rather than a choice.
+  const contiguous = {
+    type: "FeatureCollection",
+    features: DB.states.features.filter(
+      f => !["AK", "HI"].includes(f.properties.state))
+  };
+  stateLayer = L.geoJSON(contiguous, {
+    interactive:false,
+    style: f => ({
+      // Footprint states are left unfilled so the county choropleth shows
+      // through, and outlined more strongly so the eye lands on them.
+      fillColor: css("--surface-2"),
+      fillOpacity: f.properties.footprint ? 0 : 1,
+      color: f.properties.footprint ? css("--ink-2") : css("--axis"),
+      weight: f.properties.footprint ? 1.6 : 0.8,
+    })
+  }).addTo(map);
+
+  usBounds = stateLayer.getBounds();
+
+  geoLayer = L.geoJSON(DB.geo, {
+    style: styleFor,
+    onEachFeature(f, layer){
+      const fips = f.properties.fips, c = DB.byFips[fips], r = DB.recs.counties[fips];
+      layer.bindTooltip(
+        `<div class="county-tip"><strong>${esc(c.name)}, ${c.state}</strong>
+         ${r.recommendation} · confidence ${r.confidence} · ${c.tier}</div>`,
+        { sticky:true, className:"county-tip-wrap", opacity:1 });
+      layer.on("click", () => selectCounty(fips));
+      layer.on("mouseover", () => { if (passes(fips)) layer.setStyle({ weight:2, color:css("--ink") }); });
+      layer.on("mouseout",  () => geoLayer.resetStyle(layer));
+    }
+  }).addTo(map);
+
+  // Leaflet measures the container on creation, which can be before the grid
+  // has settled - fit after layout, and again whenever the pane resizes.
+  requestAnimationFrame(() => {
+    map.invalidateSize();
+    map.fitBounds(usBounds, { padding:[18,18] });
+  });
+  if (window.ResizeObserver) {
+    let first = true;
+    new ResizeObserver(() => { if (first) { first = false; return; } map.invalidateSize(); })
+      .observe(document.getElementById("map"));
+  }
+  window.addEventListener("resize", () => map.invalidateSize());
+  document.getElementById("mapReset").onclick = () => fitTo("us");
+}
+
+function styleFor(f){
+  const fips = f.properties.fips, r = DB.recs.counties[fips], on = passes(fips);
+  const d = decisions[fips];
+  return {
+    fillColor: on ? recColor(r.recommendation) : css("--surface-2"),
+    fillOpacity: on ? (d ? 0.95 : 0.78) : 0.25,
+    color: selected === fips ? css("--ink") : css("--line"),
+    weight: selected === fips ? 2.5 : 0.5,
+    dashArray: d && d.decision === "rejected" ? "3 3" : null
+  };
+}
+function restyleMap(){ if (geoLayer) geoLayer.setStyle(styleFor); }
+
+/* ================================================================ detail */
+function selectCounty(fips, zoom = true){
+  selected = fips; restyleMap(); renderDetail(fips);
+  document.getElementById("detail").scrollTop = 0;
+  // Clicking a county zooms to it; the default selection on load does not,
+  // so the first thing you see is still the whole footprint in context.
+  if (zoom) fitTo("county", fips);
+}
+
+function adjustedMhz(fips){
+  const d = decisions[fips];
+  const r = DB.recs.counties[fips];
+  return d && typeof d.mhz === "number" ? d.mhz : r.total_mhz_shift;
+}
+
+/* Max MHz the slider may move: bounded by the LTE on that band AND by the
+   county-wide 5 MHz floor. Mirrors HR-01 so the UI cannot propose something
+   the engine would reject. */
+function maxShift(fips){
+  const r = DB.recs.counties[fips];
+  if (!r.shifts.length) return 0;
+  const band = DB.spectrum[fips].bands.find(b => b.band === r.shifts[0].band);
+  return Math.min(band.mhz_lte, r.before.mhz_lte - MIN_LTE);
+}
+
+function renderDetail(fips){
+  const c = DB.byFips[fips], r = DB.recs.counties[fips];
+  const hw = DB.hardware[fips], sp = DB.spectrum[fips], ex = DB.expl[fips];
+  const L = c.network.latest, d = decisions[fips];
+  const mhz = adjustedMhz(fips);
+  const el = document.getElementById("detail");
+
+  el.innerHTML = `
+    <div class="dt-head">
+      <div class="row1">
+        <h2>${esc(c.name)}, ${c.state}</h2>
+        <span class="pill ${r.recommendation}">${r.recommendation}</span>
+        ${r.recommendation !== r.proposed_action
+          ? `<span class="badge">engine proposed ${r.proposed_action}</span>` : ""}
+      </div>
+      <div class="meta">${c.tier} · ${fmt(c.population)} people · ${c.density_per_sqmi}/sq mi · FIPS ${fips}</div>
+    </div>
+
+    ${d ? `<div class="sec"><div class="decision ${d.decision}">
+        <span class="mark">${d.decision === "approved" ? "✓" : "✕"}</span>
+        <span>${d.decision === "approved" ? "Approved" : "Rejected"}${d.mhz != null && d.mhz !== r.total_mhz_shift ? ` — adjusted to ${d.mhz} MHz` : ""}${d.reason ? ` — ${esc(d.reason)}` : ""}${d.note ? `<br><span style="color:var(--muted)">${esc(d.note)}</span>` : ""}</span>
+        <button class="btn" style="margin-left:auto;padding:4px 10px" onclick="undoDecision('${fips}')">Undo</button>
+      </div></div>` : ""}
+
+    <div class="sec">
+      <h4>Confidence</h4>
+      <div class="conf-wrap">
+        <div class="conf-bar"><div class="conf-fill" style="width:${r.confidence}%;background:${recColor(r.recommendation)}"></div></div>
+        <span class="conf-num">${r.confidence}/100</span>
+      </div>
+      ${r.needs_manager_review ? `<div class="note">Below the ${DB.recs.thresholds.review_below_confidence} threshold — routed to Manager Review.</div>` : ""}
+    </div>
+
+    <div class="sec">
+      <h4>Why</h4>
+      <ol class="reasons">${r.reasons.map(x => `<li>${esc(x)}</li>`).join("")}</ol>
+      <details class="rules"><summary>${r.rules_fired.length} rules fired — audit trail</summary>
+        <div style="margin-top:8px">${r.rules_fired.map(u => `
+          <div class="rule"><code>${u.id}</code><div class="rt"><b>${esc(u.name)}</b>${esc(u.outcome)}</div></div>`).join("")}</div>
+      </details>
+      ${r.risk_flags.length ? `<h4 style="margin-top:13px">Risk flags</h4><div class="flags">${
+        r.risk_flags.map(f => `<div class="flag"><span class="dot sev-${f.severity}"></span><span>${esc(f.label)}</span></div>`).join("")}</div>` : ""}
+    </div>
+
+    ${aiCard(r, ex)}
+
+    <div class="sec">
+      <h4>Decision</h4>
+      <div class="actions">
+        <button class="btn primary" onclick="approve('${fips}')">Approve</button>
+        <button class="btn" onclick="togglePanel('adjPanel')" ${r.shifts.length ? "" : "disabled title='Nothing to adjust on a Hold'"}>Adjust</button>
+        <button class="btn danger" onclick="togglePanel('rejPanel')">Reject</button>
+      </div>
+      ${r.shifts.length ? adjustPanel(fips, r, mhz) : ""}
+      <div class="panel" id="rejPanel" hidden>
+        <div class="field"><label for="rejReason">Reason for rejecting</label>
+          <select id="rejReason">
+            <option>LTE still carrying too much traffic</option>
+            <option>Device base not ready</option>
+            <option>Hardware / site readiness</option>
+            <option>Spectrum contiguity problem</option>
+            <option>Conflicts with market plan</option>
+            <option>Waiting on Capacity team</option>
+            <option>Other</option>
+          </select></div>
+        <div class="field" style="margin-top:9px"><label for="rejNote">Note (optional)</label>
+          <textarea id="rejNote" rows="2" placeholder="Anything the next person should know…"></textarea></div>
+        <div class="actions" style="margin-top:10px">
+          <button class="btn danger" onclick="reject('${fips}')">Confirm reject</button>
+          <button class="btn" onclick="togglePanel('rejPanel')">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="chart-cap"><h4>Spectrum — before and after</h4>
+        <span style="font-size:12px;color:var(--muted)">${mhz} MHz moving</span></div>
+      ${spectrumHtml(fips, r, mhz)}
+    </div>
+
+    <div class="sec">
+      <h4>Spectrum block plan — real FCC blocks, in frequency order</h4>
+      ${blockHtml(fips, r, mhz)}
+    </div>
+
+    <div class="sec">
+      <div class="chart-cap"><h4>Network &amp; devices — 12 months to ${c.network.latest_month}</h4>
+        <button class="linkish" onclick="toggleTable()">${showTable ? "Show charts" : "Show data table"}</button></div>
+      <div class="stats" style="margin-bottom:12px">
+        <div class="stat"><div class="k">LTE congestion</div><div class="v" style="color:var(--lte)">${L.lte_congestion_pct}<small>%</small></div></div>
+        <div class="stat"><div class="k">NR congestion</div><div class="v" style="color:var(--nr)">${L.nr_congestion_pct}<small>%</small></div></div>
+        <div class="stat"><div class="k">LTE users</div><div class="v">${fmt(L.lte_users)}</div></div>
+        <div class="stat"><div class="k">NR users</div><div class="v">${fmt(L.nr_users)}</div></div>
+        <div class="stat"><div class="k">5G devices</div><div class="v">${L.pct_5g_devices}<small>%</small></div></div>
+        <div class="stat"><div class="k">LTE-only</div><div class="v">${L.pct_lte_only_devices}<small>%</small></div></div>
+      </div>
+      <div id="chartWrap" ${showTable ? "hidden" : ""}>
+        <div class="chart-box"><canvas id="cCong"></canvas></div>
+        <div class="chart-box" style="margin-top:14px"><canvas id="cUsers"></canvas></div>
+        <div class="chart-box" style="margin-top:14px"><canvas id="cDev"></canvas></div>
+      </div>
+      <div id="tableWrap" ${showTable ? "" : "hidden"}>${trendTable(c)}</div>
+    </div>
+
+    <div class="sec">
+      <h4>Hardware readiness</h4>
+      <div class="stats">
+        <div class="stat"><div class="k">Sites NR-capable</div><div class="v">${hw.pct_modernized}<small>%</small></div></div>
+        <div class="stat"><div class="k">Total sites</div><div class="v">${fmt(hw.total_sites)}</div></div>
+        <div class="stat"><div class="k">LTE-only sites</div><div class="v" ${hw.lte_only_sites ? 'style="color:#d03b3b"' : ""}>${fmt(hw.lte_only_sites)}</div></div>
+      </div>
+      <div class="bar" style="margin-top:10px" role="img"
+           aria-label="${hw.pct_modernized}% of sites are NR-capable">
+        <i class="n" style="width:${hw.pct_modernized}%"></i><i class="l" style="width:${(100-hw.pct_modernized)}%"></i>
+      </div>
+      <div class="pcs-key"><span><i class="sw" style="background:var(--nr)"></i>NR-capable</span>
+        <span><i class="sw" style="background:var(--lte)"></i>LTE-only</span></div>
+    </div>
+
+    <div class="sec">
+      <h4>Ask about this county</h4>
+      <div id="chatBox"></div>
+    </div>`;
+
+  if (!showTable) drawCharts(c);
+  renderChat(fips);
+}
+
+/* ---------------------------------------------------------------- AI card */
+function aiCard(r, ex){
+  if (!ex) {
+    return `<div class="sec"><div class="ai"><div class="ai-hd">
+      <b>AI explanation</b><span class="tagline">unavailable</span></div>
+      <div class="ai-bd"><p class="fallback">No AI explanation for this county — showing the
+      rule engine's own reasons above, which are what the recommendation is actually based on.</p>
+      </div></div></div>`;
+  }
+  return `<div class="sec"><div class="ai">
+    <div class="ai-hd"><b>AI explanation</b>
+      <span class="tagline">AI-generated — verify before approving</span></div>
+    <div class="ai-bd">
+      <p>${esc(ex.summary)}</p>
+      <div class="lbl">Check before approving</div>
+      <ul>${ex.risks.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+      <div class="lbl">LTE-only users</div>
+      <p style="margin-bottom:0">${esc(ex.lte_only_impact)}</p>
+      ${ex.manager_note ? `<div class="lbl" style="margin-top:9px">For the approving manager</div>
+        <p style="margin-bottom:0">${esc(ex.manager_note)}</p>` : ""}
+    </div></div></div>`;
+}
+
+/* ---------------------------------------------------------------- spectrum */
+function spectrumHtml(fips, r, mhz){
+  const sp = DB.spectrum[fips];
+  const movingBand = r.shifts.length ? r.shifts[0].band : null;
+  const max = Math.max(...sp.bands.map(b => b.mhz_owned), 1);
+
+  const rows = sp.bands.filter(b => b.mhz_owned > 0).map(b => {
+    const move = b.band === movingBand ? mhz : 0;
+    const w = v => (v / max * 100).toFixed(2) + "%";
+    const bar = (lte, nr) => `<div class="bar">
+      ${lte > 0 ? `<i class="l" style="width:${w(lte)}"></i>` : ""}
+      ${nr  > 0 ? `<i class="n" style="width:${w(nr)}"></i>`  : ""}
+      ${b.mhz_owned - lte - nr > 0 ? `<i class="u" style="width:${w(b.mhz_owned-lte-nr)}"></i>` : ""}
+    </div>`;
+    return `<div class="spec-row">
+      <div class="spec-lab"><span class="nm">${b.label}${move ? ` <span style="color:var(--muted);font-weight:400">— ${move} MHz moving</span>` : ""}</span>
+        <span class="mv">${b.mhz_owned} MHz owned</span></div>
+      <div class="ba-grid">
+        <span class="tag">Before</span>${bar(b.mhz_lte, b.mhz_nr)}
+        <span class="tag">After</span>${bar(b.mhz_lte - move, b.mhz_nr + move)}
+      </div></div>`;
+  }).join("");
+
+  return rows + `
+    <div class="ba-grid" style="margin-top:12px;padding-top:11px;border-top:1px solid var(--line)">
+      <span class="tag">Total</span>
+      <div style="display:flex;gap:16px;font-size:12px">
+        <span><b style="color:var(--lte)">LTE</b> ${r.before.mhz_lte} → <b>${r.before.mhz_lte - mhz} MHz</b></span>
+        <span><b style="color:var(--nr)">NR</b> ${r.before.mhz_nr} → <b>${r.before.mhz_nr + mhz} MHz</b></span>
+      </div>
+    </div>
+    <div class="pcs-key"><span><i class="sw" style="background:var(--lte)"></i>LTE</span>
+      <span><i class="sw" style="background:var(--nr)"></i>NR</span>
+      <span><i class="sw u" style="background:var(--surface-2);border:1px solid var(--line)"></i>owned, not deployed</span></div>`;
+}
+
+/* ---------------------------------------------------------------- block plan
+   Every band that has a real block structure gets its own strip, in frequency
+   order. Blocks are sized in proportion to their real width, because those
+   widths are not uniform - 700 MHz came out of 6 MHz TV channels and AWS-1
+   mixes 5s and 10s. Drawing them all the same size would be tidier and wrong.
+   2500 has no block grid (BRS/EBS leasing doesn't map to one) so it is shown
+   as bulk MHz. */
+function blockHtml(fips, r, mhz){
+  const sp = DB.spectrum[fips];
+  const shift = r.shifts.length ? r.shifts[0] : null;
+
+  const strips = sp.bands.filter(b => b.blocked && b.blocks.length).map(b => {
+    // Which blocks move is driven by the slider: the engine carves in order,
+    // so N MHz = the leading blocks of its list that fit.
+    let moving = [];
+    if (shift && shift.band === b.band && shift.blocks) {
+      let left = mhz;
+      for (const name of shift.blocks) {
+        const w = (b.blocks.find(x => x.block === name) || {}).width_mhz || 0;
+        if (w > left) break;
+        moving.push(name); left -= w;
+      }
+    } else if (shift && shift.band === b.band) {
+      // A whole-band carve with no per-block list: every LTE block goes.
+      moving = b.blocks.filter(x => x.layer === "LTE").map(x => x.block);
+    }
+
+    const cells = b.blocks.map(c => {
+      const mv = moving.includes(c.block);
+      const cls = !c.owned ? "unowned" : (mv || c.layer === "NR" ? "nr" : "lte");
+      const mark = mv ? "→NR" : (c.isolated ? "iso" : "");
+      const tip = c.owned
+        ? `${c.block} · ${c.width_mhz} MHz · ${mv ? "LTE, moving to NR" : c.layer}`
+          + (c.isolated ? " · isolated from the NR carrier" : "")
+        : `${c.block} · ${c.width_mhz} MHz · not owned`;
+      return `<div class="blk ${cls}${mv ? " moving" : ""}"
+        style="flex:${c.width_mhz} 1 0" title="${esc(tip)}">
+        <span class="bn">${esc(c.block)}</span>
+        <span class="bw">${c.width_mhz}</span>
+        <span class="mk">${mark}</span></div>`;
+    }).join("");
+
+    const owned = b.blocks.filter(c => c.owned).length;
+    return `<div class="bandstrip">
+      <div class="spec-lab"><span class="nm">${b.label}</span>
+        <span class="mv">${owned ? `${owned} of ${b.blocks.length} blocks · ${b.mhz_owned} MHz` : "none owned"}</span></div>
+      <div class="pcs">${cells}</div></div>`;
+  }).join("");
+
+  const bulk = sp.bands.filter(b => !b.blocked && b.mhz_owned > 0).map(b => `
+    <div class="bandstrip"><div class="spec-lab">
+      <span class="nm">${b.label}</span>
+      <span class="mv">${b.mhz_owned} MHz owned · held as bulk spectrum, no block grid</span>
+    </div></div>`).join("");
+
+  const iso = sp.bands.flatMap(b => b.blocks.filter(c => c.isolated)
+    .map(c => `${c.block} in ${b.band}`));
+
+  return strips + bulk + `
+    <div class="pcs-key">
+      <span><i class="sw" style="background:var(--lte)"></i>LTE</span>
+      <span><i class="sw" style="background:var(--nr)"></i>NR</span>
+      <span><i class="sw" style="background:var(--surface-2);border:1px solid var(--line)"></i>not owned</span>
+      <span><i class="sw" style="border:2px solid var(--ink);background:transparent"></i>moving to NR</span>
+      <span style="color:var(--muted)">block width shown in MHz</span>
+      ${iso.length ? `<span style="color:var(--muted)">“iso” = isolated from the NR carrier, stays on LTE (${esc(iso.join(", "))})</span>` : ""}
+    </div>
+    <div class="note">700 MHz is the LTE anchor — it has no NR counterpart, so it is never refarmed.</div>`;
+}
+
+/* ---------------------------------------------------------------- adjust */
+function adjustPanel(fips, r, mhz){
+  const mx = maxShift(fips), s = r.shifts[0];
+  return `<div class="panel" id="adjPanel" hidden>
+    <div style="font-size:12px;color:var(--ink-2)">Move spectrum from <b>${s.from}</b> to <b>${s.to}</b>.</div>
+    <div class="slider-row">
+      <input type="range" id="adjRange" min="0" max="${mx}" step="5" value="${mhz}"
+             oninput="onAdjust('${fips}')" aria-label="MHz to shift">
+      <span class="slider-val" id="adjVal">${mhz} MHz</span>
+    </div>
+    <div style="font-size:12px;color:var(--ink-2)">
+      LTE after: <b id="adjLte">${r.before.mhz_lte - mhz}</b> MHz ·
+      NR after: <b id="adjNr">${r.before.mhz_nr + mhz}</b> MHz</div>
+    <div class="note" id="adjNote">Capped at ${mx} MHz — every county keeps at least ${MIN_LTE} MHz of LTE (HR-01)${mx < s.mhz + 5 ? " and this band has no more LTE to give" : ""}.</div>
+    <div class="actions" style="margin-top:10px">
+      <button class="btn primary" onclick="approve('${fips}', true)">Approve adjusted</button>
+      <button class="btn" onclick="resetAdjust('${fips}')">Back to recommended (${r.total_mhz_shift} MHz)</button>
+    </div></div>`;
+}
+
+function onAdjust(fips){
+  const r = DB.recs.counties[fips];
+  const v = +document.getElementById("adjRange").value;
+  document.getElementById("adjVal").textContent = v + " MHz";
+  document.getElementById("adjLte").textContent = r.before.mhz_lte - v;
+  document.getElementById("adjNr").textContent  = r.before.mhz_nr + v;
+  // Live update of the after-bars and the block strip, without a full redraw.
+  const keep = document.getElementById("detail").scrollTop;
+  const secs = document.querySelectorAll("#detail .sec");
+  secs.forEach(s => {
+    const h = s.querySelector("h4");
+    if (!h) return;
+    if (h.textContent.startsWith("Spectrum")) {
+      s.innerHTML = `<div class="chart-cap"><h4>Spectrum — before and after</h4>
+        <span style="font-size:12px;color:var(--muted)">${v} MHz moving</span></div>` + spectrumHtml(fips, r, v);
+    }
+    if (h.textContent.startsWith("Spectrum block plan")) {
+      s.innerHTML = `<h4>Spectrum block plan — real FCC blocks, in frequency order</h4>` + blockHtml(fips, r, v);
+    }
+  });
+  document.getElementById("detail").scrollTop = keep;
+}
+
+function resetAdjust(fips){
+  const r = DB.recs.counties[fips];
+  document.getElementById("adjRange").value = String(r.total_mhz_shift);
+  onAdjust(fips);
+}
+
+function togglePanel(id){
+  const p = document.getElementById(id);
+  if (p) p.hidden = !p.hidden;
+}
+
+/* ---------------------------------------------------------------- decisions */
+function approve(fips, adjusted){
+  const r = DB.recs.counties[fips];
+  const el = document.getElementById("adjRange");
+  const mhz = adjusted && el ? +el.value : r.total_mhz_shift;
+  decisions[fips] = { decision:"approved", mhz, at:new Date().toISOString() };
+  store.write(decisions); afterDecision(fips);
+}
+function reject(fips){
+  decisions[fips] = {
+    decision:"rejected", mhz:0,
+    reason:document.getElementById("rejReason").value,
+    note:document.getElementById("rejNote").value.trim(),
+    at:new Date().toISOString()
+  };
+  store.write(decisions); afterDecision(fips);
+}
+function undoDecision(fips){ delete decisions[fips]; store.write(decisions); afterDecision(fips); }
+function afterDecision(fips){ restyleMap(); renderDetail(fips); renderQueue(); renderSummary(); }
+
+/* ---------------------------------------------------------------- charts */
+function baseOpts(yLabel, pctAxis){
+  const ink = css("--ink-2"), grid = css("--grid"), muted = css("--muted");
+  return {
+    responsive:true, maintainAspectRatio:false,
+    interaction:{ mode:"index", intersect:false },   // crosshair-style hover
+    layout:{ padding:{ top:4, right:6 } },
+    plugins:{
+      legend:{ position:"top", align:"end",
+        labels:{ boxWidth:9, boxHeight:9, usePointStyle:true, pointStyle:"rectRounded",
+                 color:ink, font:{ size:11 }, padding:12 } },
+      tooltip:{
+        backgroundColor:css("--surface"), titleColor:css("--ink"), bodyColor:ink,
+        borderColor:css("--line"), borderWidth:1, padding:9, cornerRadius:8,
+        displayColors:true, boxWidth:8, boxHeight:8, usePointStyle:true,
+        callbacks:{ label:c => ` ${c.dataset.label}: ${fmt(c.parsed.y)}${pctAxis ? "%" : ""}` }
+      }
+    },
+    scales:{
+      x:{ grid:{ display:false }, border:{ color:css("--axis") },
+          ticks:{ color:muted, font:{ size:10 }, maxRotation:0, autoSkipPadding:14 } },
+      y:{ beginAtZero:true, ...(pctAxis ? { suggestedMax:100 } : {}),
+          grid:{ color:grid, drawTicks:false },      // solid hairline, never dashed
+          border:{ display:false },
+          ticks:{ color:muted, font:{ size:10 }, padding:6,
+                  callback:v => pctAxis ? v + "%" : (v >= 1000 ? (v/1000) + "k" : v) },
+          title:{ display:!!yLabel, text:yLabel, color:muted, font:{ size:10 } } }
+    }
+  };
+}
+
+function lineSet(label, data, color){
+  return { label, data, borderColor:color, backgroundColor:color,
+           borderWidth:2, tension:.3,
+           pointRadius:4, pointHoverRadius:6, hitRadius:14,   // >=8px marker, big hit target
+           pointBackgroundColor:color,
+           pointBorderColor:css("--surface"), pointBorderWidth:2 }; // 2px surface ring
+}
+
+function drawCharts(c){
+  Object.values(charts).forEach(ch => ch.destroy()); charts = {};
+  const m = c.network.months;
+  const labels = m.map(x => x.month.slice(2).replace("-", "/"));
+  const lte = css("--lte"), nr = css("--nr");
+
+  charts.cong = new Chart(document.getElementById("cCong"), {
+    type:"line",
+    data:{ labels, datasets:[
+      lineSet("LTE congestion", m.map(x => x.lte_congestion_pct), lte),
+      lineSet("NR congestion",  m.map(x => x.nr_congestion_pct),  nr) ] },
+    options:baseOpts("PRB utilization", true)
+  });
+
+  charts.users = new Chart(document.getElementById("cUsers"), {
+    type:"line",
+    data:{ labels, datasets:[
+      lineSet("LTE users", m.map(x => x.lte_users), lte),
+      lineSet("NR users",  m.map(x => x.nr_users),  nr) ] },
+    options:baseOpts("Users", false)
+  });
+
+  const devOpts = baseOpts("Device mix", true);
+  devOpts.scales.y.stacked = true; devOpts.scales.x.stacked = true;
+  devOpts.scales.y.max = 100;
+  charts.dev = new Chart(document.getElementById("cDev"), {
+    type:"bar",
+    data:{ labels, datasets:[
+      // A 2px border in the surface colour on the touching edge is how a
+      // stacked bar gets its spacer in Chart.js - the segments must read as
+      // separate fills, not one block split by a hairline.
+      { label:"5G-capable", data:m.map(x => x.pct_5g_devices), backgroundColor:nr,
+        borderColor:css("--surface"), borderWidth:{ top:2 }, borderSkipped:false,
+        borderRadius:4, barPercentage:.72, categoryPercentage:.9 },
+      { label:"LTE-only",   data:m.map(x => x.pct_lte_only_devices), backgroundColor:lte,
+        borderColor:css("--surface"), borderWidth:{ bottom:2 }, borderSkipped:false,
+        borderRadius:4, barPercentage:.72, categoryPercentage:.9 } ] },
+    options:devOpts
+  });
+}
+
+function trendTable(c){
+  return `<div class="dtable"><table>
+    <thead><tr><th>Month</th><th class="num">LTE cong</th><th class="num">NR cong</th>
+      <th class="num">LTE users</th><th class="num">NR users</th>
+      <th class="num">5G dev</th><th class="num">LTE-only</th></tr></thead>
+    <tbody>${c.network.months.map(m => `<tr>
+      <td>${m.month}</td><td class="num">${m.lte_congestion_pct}%</td><td class="num">${m.nr_congestion_pct}%</td>
+      <td class="num">${fmt(m.lte_users)}</td><td class="num">${fmt(m.nr_users)}</td>
+      <td class="num">${m.pct_5g_devices}%</td><td class="num">${m.pct_lte_only_devices}%</td></tr>`).join("")}
+    </tbody></table></div>`;
+}
+
+function toggleTable(){ showTable = !showTable; if (selected) renderDetail(selected); }
+
+/* ---------------------------------------------------------------- chat */
+/* The chat backend only ever runs on the viewer's own machine, so only look
+   for it when this page is itself being served locally. On a public host the
+   fetch could never succeed and would just log a connection error in every
+   visitor's console. */
+const CAN_HAVE_BACKEND = ["localhost", "127.0.0.1", "[::1]", ""].includes(location.hostname);
+
+async function pingChat(){
+  if (!CAN_HAVE_BACKEND) { chatOnline = false; if (selected) renderChat(selected); return; }
+  try {
+    const r = await fetch("http://127.0.0.1:8000/health", { signal:AbortSignal.timeout(1200) });
+    chatOnline = r.ok;
+  } catch { chatOnline = false; }
+  if (selected) renderChat(selected);
+}
+
+function renderChat(fips){
+  const box = document.getElementById("chatBox");
+  if (!box) return;
+  if (!chatOnline) {
+    box.innerHTML = `<div class="offline"><b>Available in local demo.</b><br>
+      The chat calls a small FastAPI backend that runs on your own machine. Clone the repo,
+      start it with <code>py -3.12 tools/chat_backend.py</code>, and open this page from
+      <code>localhost</code>.
+      ${CAN_HAVE_BACKEND
+        ? `<button class="linkish" style="margin-left:6px" onclick="pingChat()">Retry</button>`
+        : ""}</div>`;
+    return;
+  }
+  box.innerHTML = `<div class="chat-log" id="chatLog"></div>
+    <div class="chat-in">
+      <input id="chatQ" class="field" type="text" placeholder="e.g. why is LTE being held here?"
+             onkeydown="if(event.key==='Enter')sendChat('${fips}')">
+      <button class="btn primary" onclick="sendChat('${fips}')">Ask</button>
+    </div>
+    <div class="note">Answers come only from this county's data. AI-generated — verify before approving.</div>`;
+}
+
+async function sendChat(fips){
+  const q = document.getElementById("chatQ"), log = document.getElementById("chatLog");
+  const text = q.value.trim(); if (!text) return;
+  q.value = "";
+  log.insertAdjacentHTML("beforeend", `<div class="msg you">${esc(text)}</div>`);
+  log.insertAdjacentHTML("beforeend", `<div class="msg bot" id="pending">…</div>`);
+  log.scrollTop = log.scrollHeight;
+  try {
+    const r = await fetch("http://127.0.0.1:8000/ask", {
+      method:"POST", headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({ fips, question:text })
+    });
+    const d = await r.json();
+    const p = document.getElementById("pending");
+    p.id = ""; p.textContent = d.answer;
+    if (!d.validated) {
+      p.classList.add("flagged");
+      p.insertAdjacentHTML("beforeend",
+        `<div style="font-size:11px;margin-top:6px;color:#d03b3b">Flagged: these values are not in this county's data — ${esc((d.unverified_numbers||[]).join(", "))}</div>`);
+    }
+  } catch (e) {
+    const p = document.getElementById("pending");
+    if (p) { p.id = ""; p.textContent = "Could not reach the local backend."; }
+  }
+  log.scrollTop = log.scrollHeight;
+}
+
+/* ---------------------------------------------------------------- review */
+function renderQueue(){
+  const q = DB.recs.review_queue;
+  const open = q.filter(f => !decisions[f]);
+  document.getElementById("qBadge").textContent = open.length ? `(${open.length})` : "";
+  document.getElementById("qHint").textContent =
+    `${q.length} counties fell below ${DB.recs.thresholds.review_below_confidence}% confidence and need a human decision. `
+    + `${q.length - open.length} decided, ${open.length} open.`;
+
+  document.getElementById("queue").innerHTML = q.map(f => {
+    const r = DB.recs.counties[f], ex = DB.expl[f], d = decisions[f];
+    return `<div class="q-item">
+      <div class="q-top">
+        <span class="nm">${esc(r.name)}, ${r.state}</span>
+        <span class="pill ${r.recommendation}">${r.recommendation}</span>
+        <span class="badge">proposed ${r.proposed_action}${r.total_mhz_shift ? ` · ${r.total_mhz_shift} MHz` : ""}</span>
+        <span class="cf">confidence ${r.confidence}</span>
+        <button class="linkish" style="margin-left:auto" onclick="jumpTo('${f}')">Open on map</button>
+      </div>
+      ${ex && ex.manager_note
+        ? `<div class="q-note">${esc(ex.manager_note)}
+             <span style="color:var(--muted);font-size:11px">— AI-generated, verify before approving</span></div>`
+        : `<div class="q-note fallback">${esc(r.reasons[0] || "")}</div>`}
+      ${d ? `<div class="decision ${d.decision}"><span class="mark">${d.decision === "approved" ? "✓" : "✕"}</span>
+              <span>${d.decision === "approved" ? "Approved" : "Rejected"}${d.reason ? ` — ${esc(d.reason)}` : ""}${d.note ? ` — ${esc(d.note)}` : ""}</span>
+              <button class="btn" style="margin-left:auto;padding:4px 10px" onclick="undoDecision('${f}');renderQueue()">Undo</button></div>`
+        : `<div class="q-actions">
+             <input type="text" class="field" id="qc-${f}" placeholder="Comment (optional)">
+             <button class="btn primary" onclick="qDecide('${f}','approved')">Approve</button>
+             <button class="btn danger"  onclick="qDecide('${f}','rejected')">Reject</button>
+           </div>`}
+    </div>`;
+  }).join("");
+}
+
+function qDecide(fips, what){
+  const c = document.getElementById("qc-" + fips);
+  decisions[fips] = {
+    decision:what,
+    mhz: what === "approved" ? DB.recs.counties[fips].total_mhz_shift : 0,
+    note:(c && c.value.trim()) || "", by:"manager", at:new Date().toISOString()
+  };
+  store.write(decisions); renderQueue(); renderSummary(); restyleMap();
+  if (selected === fips) renderDetail(fips);
+}
+
+function jumpTo(fips){
+  document.querySelector('.tabs button[data-tab="map"]').click();
+  selectCounty(fips);
+}
+
+/* ---------------------------------------------------------------- summary */
+function renderSummary(){
+  const all = Object.values(DB.recs.counties);
+  const approved = all.filter(r => decisions[r.fips] && decisions[r.fips].decision === "approved");
+  const rejected = all.filter(r => decisions[r.fips] && decisions[r.fips].decision === "rejected");
+  const planned  = approved.reduce((s, r) => s + (decisions[r.fips].mhz ?? r.total_mhz_shift), 0);
+  const engine   = DB.recs.summary.total_mhz_refarmed;
+
+  const byState = {};
+  all.forEach(r => {
+    const s = byState[r.state] ||= { Carve:0, Hold:0, Review:0, mhz:0, approved:0, rejected:0, counties:0 };
+    s[r.recommendation]++; s.mhz += r.total_mhz_shift; s.counties++;
+    const d = decisions[r.fips];
+    if (d && d.decision === "approved") { s.approved++; }
+    if (d && d.decision === "rejected") { s.rejected++; }
+  });
+  const recCount = k => all.filter(r => r.recommendation === k).length;
+
+  document.getElementById("summary").innerHTML = `
+    <div class="tiles">
+      <div class="tile"><div class="k">MHz refarmed — approved</div>
+        <div class="v">${fmt(planned)} <small>of ${fmt(engine)} recommended</small></div></div>
+      <div class="tile"><div class="k">Counties decided</div>
+        <div class="v">${approved.length + rejected.length} <small>/ 257</small></div></div>
+      <div class="tile"><div class="k">Approved</div><div class="v" style="color:var(--carve)">${approved.length}</div></div>
+      <div class="tile"><div class="k">Rejected</div><div class="v" style="color:#d03b3b">${rejected.length}</div></div>
+      <div class="tile"><div class="k">Awaiting manager review</div>
+        <div class="v" style="color:var(--review)">${DB.recs.review_queue.filter(f => !decisions[f]).length}</div></div>
+    </div>
+
+    <div class="sumgrid">
+      <div class="card"><h3>By recommendation</h3><div class="body">
+        <div class="mini">${REC.map(k => `<i style="background:${recColor(k)};width:${recCount(k)/257*100}%"></i>`).join("")}</div>
+        <table><thead><tr><th>Decision</th><th class="num">Counties</th><th class="num">Share</th><th class="num">MHz</th></tr></thead>
+        <tbody>${REC.map(k => {
+          const rows = all.filter(r => r.recommendation === k);
+          return `<tr><td><span class="sw" style="display:inline-block;background:${recColor(k)};margin-right:7px"></span>${k}</td>
+            <td class="num">${rows.length}</td><td class="num">${(rows.length/257*100).toFixed(0)}%</td>
+            <td class="num">${fmt(rows.reduce((s,r)=>s+r.total_mhz_shift,0))}</td></tr>`; }).join("")}
+        </tbody></table></div></div>
+
+      <div class="card"><h3>By state</h3><div class="body">
+        <table><thead><tr><th>State</th><th class="num">Counties</th><th class="num">Carve</th>
+          <th class="num">Hold</th><th class="num">Review</th><th class="num">MHz</th>
+          <th class="num">Decided</th></tr></thead>
+        <tbody>${Object.entries(byState).sort().map(([s, v]) => `<tr>
+          <td>${s}</td><td class="num">${v.counties}</td><td class="num">${v.Carve}</td>
+          <td class="num">${v.Hold}</td><td class="num">${v.Review}</td>
+          <td class="num">${fmt(v.mhz)}</td>
+          <td class="num">${v.approved + v.rejected}</td></tr>`).join("")}
+        </tbody></table></div></div>
+    </div>
+
+    <p style="color:var(--muted);font-size:12px;margin-top:16px">
+      Decisions are stored in this browser only — this is a prototype, not a system of record.
+      ${approved.length + rejected.length ? `<button class="linkish" onclick="clearAll()">Clear all decisions</button>` : ""}
+    </p>`;
+}
+
+function clearAll(){
+  decisions = {}; store.write(decisions);
+  restyleMap(); renderQueue(); renderSummary();
+  if (selected) renderDetail(selected);
+}
+
+boot();
+</script>
+</body>
+</html>

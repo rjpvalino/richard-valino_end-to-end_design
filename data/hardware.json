@@ -1,0 +1,2572 @@
+{
+  "17001": {
+    "fips": "17001",
+    "name": "Adams County",
+    "state": "IL",
+    "total_sites": 29,
+    "nr_capable_sites": 29,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17003": {
+    "fips": "17003",
+    "name": "Alexander County",
+    "state": "IL",
+    "total_sites": 5,
+    "nr_capable_sites": 4,
+    "lte_only_sites": 1,
+    "pct_modernized": 80.0,
+    "fully_nr_capable": false
+  },
+  "17005": {
+    "fips": "17005",
+    "name": "Bond County",
+    "state": "IL",
+    "total_sites": 7,
+    "nr_capable_sites": 7,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17007": {
+    "fips": "17007",
+    "name": "Boone County",
+    "state": "IL",
+    "total_sites": 22,
+    "nr_capable_sites": 22,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17009": {
+    "fips": "17009",
+    "name": "Brown County",
+    "state": "IL",
+    "total_sites": 4,
+    "nr_capable_sites": 4,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17011": {
+    "fips": "17011",
+    "name": "Bureau County",
+    "state": "IL",
+    "total_sites": 19,
+    "nr_capable_sites": 11,
+    "lte_only_sites": 8,
+    "pct_modernized": 57.9,
+    "fully_nr_capable": false
+  },
+  "17013": {
+    "fips": "17013",
+    "name": "Calhoun County",
+    "state": "IL",
+    "total_sites": 3,
+    "nr_capable_sites": 3,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17015": {
+    "fips": "17015",
+    "name": "Carroll County",
+    "state": "IL",
+    "total_sites": 8,
+    "nr_capable_sites": 5,
+    "lte_only_sites": 3,
+    "pct_modernized": 62.5,
+    "fully_nr_capable": false
+  },
+  "17017": {
+    "fips": "17017",
+    "name": "Cass County",
+    "state": "IL",
+    "total_sites": 5,
+    "nr_capable_sites": 5,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17019": {
+    "fips": "17019",
+    "name": "Champaign County",
+    "state": "IL",
+    "total_sites": 86,
+    "nr_capable_sites": 86,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17021": {
+    "fips": "17021",
+    "name": "Christian County",
+    "state": "IL",
+    "total_sites": 20,
+    "nr_capable_sites": 20,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17023": {
+    "fips": "17023",
+    "name": "Clark County",
+    "state": "IL",
+    "total_sites": 11,
+    "nr_capable_sites": 11,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17025": {
+    "fips": "17025",
+    "name": "Clay County",
+    "state": "IL",
+    "total_sites": 10,
+    "nr_capable_sites": 7,
+    "lte_only_sites": 3,
+    "pct_modernized": 70.0,
+    "fully_nr_capable": false
+  },
+  "17027": {
+    "fips": "17027",
+    "name": "Clinton County",
+    "state": "IL",
+    "total_sites": 15,
+    "nr_capable_sites": 12,
+    "lte_only_sites": 3,
+    "pct_modernized": 80.0,
+    "fully_nr_capable": false
+  },
+  "17029": {
+    "fips": "17029",
+    "name": "Coles County",
+    "state": "IL",
+    "total_sites": 20,
+    "nr_capable_sites": 20,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17031": {
+    "fips": "17031",
+    "name": "Cook County",
+    "state": "IL",
+    "total_sites": 2001,
+    "nr_capable_sites": 2001,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17033": {
+    "fips": "17033",
+    "name": "Crawford County",
+    "state": "IL",
+    "total_sites": 9,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17035": {
+    "fips": "17035",
+    "name": "Cumberland County",
+    "state": "IL",
+    "total_sites": 6,
+    "nr_capable_sites": 6,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17037": {
+    "fips": "17037",
+    "name": "DeKalb County",
+    "state": "IL",
+    "total_sites": 43,
+    "nr_capable_sites": 43,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17039": {
+    "fips": "17039",
+    "name": "De Witt County",
+    "state": "IL",
+    "total_sites": 9,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17041": {
+    "fips": "17041",
+    "name": "Douglas County",
+    "state": "IL",
+    "total_sites": 12,
+    "nr_capable_sites": 7,
+    "lte_only_sites": 5,
+    "pct_modernized": 58.3,
+    "fully_nr_capable": false
+  },
+  "17043": {
+    "fips": "17043",
+    "name": "DuPage County",
+    "state": "IL",
+    "total_sites": 364,
+    "nr_capable_sites": 364,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17045": {
+    "fips": "17045",
+    "name": "Edgar County",
+    "state": "IL",
+    "total_sites": 11,
+    "nr_capable_sites": 11,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17047": {
+    "fips": "17047",
+    "name": "Edwards County",
+    "state": "IL",
+    "total_sites": 5,
+    "nr_capable_sites": 4,
+    "lte_only_sites": 1,
+    "pct_modernized": 80.0,
+    "fully_nr_capable": false
+  },
+  "17049": {
+    "fips": "17049",
+    "name": "Effingham County",
+    "state": "IL",
+    "total_sites": 15,
+    "nr_capable_sites": 11,
+    "lte_only_sites": 4,
+    "pct_modernized": 73.3,
+    "fully_nr_capable": false
+  },
+  "17051": {
+    "fips": "17051",
+    "name": "Fayette County",
+    "state": "IL",
+    "total_sites": 11,
+    "nr_capable_sites": 11,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17053": {
+    "fips": "17053",
+    "name": "Ford County",
+    "state": "IL",
+    "total_sites": 8,
+    "nr_capable_sites": 8,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17055": {
+    "fips": "17055",
+    "name": "Franklin County",
+    "state": "IL",
+    "total_sites": 16,
+    "nr_capable_sites": 12,
+    "lte_only_sites": 4,
+    "pct_modernized": 75.0,
+    "fully_nr_capable": false
+  },
+  "17057": {
+    "fips": "17057",
+    "name": "Fulton County",
+    "state": "IL",
+    "total_sites": 20,
+    "nr_capable_sites": 20,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17059": {
+    "fips": "17059",
+    "name": "Gallatin County",
+    "state": "IL",
+    "total_sites": 6,
+    "nr_capable_sites": 5,
+    "lte_only_sites": 1,
+    "pct_modernized": 83.3,
+    "fully_nr_capable": false
+  },
+  "17061": {
+    "fips": "17061",
+    "name": "Greene County",
+    "state": "IL",
+    "total_sites": 10,
+    "nr_capable_sites": 10,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17063": {
+    "fips": "17063",
+    "name": "Grundy County",
+    "state": "IL",
+    "total_sites": 25,
+    "nr_capable_sites": 25,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17065": {
+    "fips": "17065",
+    "name": "Hamilton County",
+    "state": "IL",
+    "total_sites": 4,
+    "nr_capable_sites": 4,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17067": {
+    "fips": "17067",
+    "name": "Hancock County",
+    "state": "IL",
+    "total_sites": 12,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 3,
+    "pct_modernized": 75.0,
+    "fully_nr_capable": false
+  },
+  "17069": {
+    "fips": "17069",
+    "name": "Hardin County",
+    "state": "IL",
+    "total_sites": 3,
+    "nr_capable_sites": 3,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17071": {
+    "fips": "17071",
+    "name": "Henderson County",
+    "state": "IL",
+    "total_sites": 4,
+    "nr_capable_sites": 3,
+    "lte_only_sites": 1,
+    "pct_modernized": 75.0,
+    "fully_nr_capable": false
+  },
+  "17073": {
+    "fips": "17073",
+    "name": "Henry County",
+    "state": "IL",
+    "total_sites": 22,
+    "nr_capable_sites": 22,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17075": {
+    "fips": "17075",
+    "name": "Iroquois County",
+    "state": "IL",
+    "total_sites": 15,
+    "nr_capable_sites": 15,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17077": {
+    "fips": "17077",
+    "name": "Jackson County",
+    "state": "IL",
+    "total_sites": 22,
+    "nr_capable_sites": 22,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17079": {
+    "fips": "17079",
+    "name": "Jasper County",
+    "state": "IL",
+    "total_sites": 8,
+    "nr_capable_sites": 8,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17081": {
+    "fips": "17081",
+    "name": "Jefferson County",
+    "state": "IL",
+    "total_sites": 16,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 7,
+    "pct_modernized": 56.2,
+    "fully_nr_capable": false
+  },
+  "17083": {
+    "fips": "17083",
+    "name": "Jersey County",
+    "state": "IL",
+    "total_sites": 13,
+    "nr_capable_sites": 10,
+    "lte_only_sites": 3,
+    "pct_modernized": 76.9,
+    "fully_nr_capable": false
+  },
+  "17085": {
+    "fips": "17085",
+    "name": "Jo Daviess County",
+    "state": "IL",
+    "total_sites": 13,
+    "nr_capable_sites": 7,
+    "lte_only_sites": 6,
+    "pct_modernized": 53.8,
+    "fully_nr_capable": false
+  },
+  "17087": {
+    "fips": "17087",
+    "name": "Johnson County",
+    "state": "IL",
+    "total_sites": 9,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17089": {
+    "fips": "17089",
+    "name": "Kane County",
+    "state": "IL",
+    "total_sites": 206,
+    "nr_capable_sites": 206,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17091": {
+    "fips": "17091",
+    "name": "Kankakee County",
+    "state": "IL",
+    "total_sites": 46,
+    "nr_capable_sites": 46,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17093": {
+    "fips": "17093",
+    "name": "Kendall County",
+    "state": "IL",
+    "total_sites": 59,
+    "nr_capable_sites": 59,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17095": {
+    "fips": "17095",
+    "name": "Knox County",
+    "state": "IL",
+    "total_sites": 25,
+    "nr_capable_sites": 25,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17097": {
+    "fips": "17097",
+    "name": "Lake County",
+    "state": "IL",
+    "total_sites": 281,
+    "nr_capable_sites": 234,
+    "lte_only_sites": 47,
+    "pct_modernized": 83.3,
+    "fully_nr_capable": false
+  },
+  "17099": {
+    "fips": "17099",
+    "name": "LaSalle County",
+    "state": "IL",
+    "total_sites": 47,
+    "nr_capable_sites": 26,
+    "lte_only_sites": 21,
+    "pct_modernized": 55.3,
+    "fully_nr_capable": false
+  },
+  "17101": {
+    "fips": "17101",
+    "name": "Lawrence County",
+    "state": "IL",
+    "total_sites": 8,
+    "nr_capable_sites": 8,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17103": {
+    "fips": "17103",
+    "name": "Lee County",
+    "state": "IL",
+    "total_sites": 17,
+    "nr_capable_sites": 17,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17105": {
+    "fips": "17105",
+    "name": "Livingston County",
+    "state": "IL",
+    "total_sites": 21,
+    "nr_capable_sites": 21,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17107": {
+    "fips": "17107",
+    "name": "Logan County",
+    "state": "IL",
+    "total_sites": 17,
+    "nr_capable_sites": 17,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17109": {
+    "fips": "17109",
+    "name": "McDonough County",
+    "state": "IL",
+    "total_sites": 13,
+    "nr_capable_sites": 10,
+    "lte_only_sites": 3,
+    "pct_modernized": 76.9,
+    "fully_nr_capable": false
+  },
+  "17111": {
+    "fips": "17111",
+    "name": "McHenry County",
+    "state": "IL",
+    "total_sites": 125,
+    "nr_capable_sites": 118,
+    "lte_only_sites": 7,
+    "pct_modernized": 94.4,
+    "fully_nr_capable": false
+  },
+  "17113": {
+    "fips": "17113",
+    "name": "McLean County",
+    "state": "IL",
+    "total_sites": 76,
+    "nr_capable_sites": 56,
+    "lte_only_sites": 20,
+    "pct_modernized": 73.7,
+    "fully_nr_capable": false
+  },
+  "17115": {
+    "fips": "17115",
+    "name": "Macon County",
+    "state": "IL",
+    "total_sites": 43,
+    "nr_capable_sites": 43,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17117": {
+    "fips": "17117",
+    "name": "Macoupin County",
+    "state": "IL",
+    "total_sites": 24,
+    "nr_capable_sites": 24,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17119": {
+    "fips": "17119",
+    "name": "Madison County",
+    "state": "IL",
+    "total_sites": 107,
+    "nr_capable_sites": 107,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17121": {
+    "fips": "17121",
+    "name": "Marion County",
+    "state": "IL",
+    "total_sites": 16,
+    "nr_capable_sites": 16,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17123": {
+    "fips": "17123",
+    "name": "Marshall County",
+    "state": "IL",
+    "total_sites": 5,
+    "nr_capable_sites": 4,
+    "lte_only_sites": 1,
+    "pct_modernized": 80.0,
+    "fully_nr_capable": false
+  },
+  "17125": {
+    "fips": "17125",
+    "name": "Mason County",
+    "state": "IL",
+    "total_sites": 9,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17127": {
+    "fips": "17127",
+    "name": "Massac County",
+    "state": "IL",
+    "total_sites": 7,
+    "nr_capable_sites": 5,
+    "lte_only_sites": 2,
+    "pct_modernized": 71.4,
+    "fully_nr_capable": false
+  },
+  "17129": {
+    "fips": "17129",
+    "name": "Menard County",
+    "state": "IL",
+    "total_sites": 9,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17131": {
+    "fips": "17131",
+    "name": "Mercer County",
+    "state": "IL",
+    "total_sites": 9,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17133": {
+    "fips": "17133",
+    "name": "Monroe County",
+    "state": "IL",
+    "total_sites": 18,
+    "nr_capable_sites": 18,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17135": {
+    "fips": "17135",
+    "name": "Montgomery County",
+    "state": "IL",
+    "total_sites": 13,
+    "nr_capable_sites": 13,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17137": {
+    "fips": "17137",
+    "name": "Morgan County",
+    "state": "IL",
+    "total_sites": 15,
+    "nr_capable_sites": 15,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17139": {
+    "fips": "17139",
+    "name": "Moultrie County",
+    "state": "IL",
+    "total_sites": 6,
+    "nr_capable_sites": 6,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17141": {
+    "fips": "17141",
+    "name": "Ogle County",
+    "state": "IL",
+    "total_sites": 26,
+    "nr_capable_sites": 26,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17143": {
+    "fips": "17143",
+    "name": "Peoria County",
+    "state": "IL",
+    "total_sites": 74,
+    "nr_capable_sites": 58,
+    "lte_only_sites": 16,
+    "pct_modernized": 78.4,
+    "fully_nr_capable": false
+  },
+  "17145": {
+    "fips": "17145",
+    "name": "Perry County",
+    "state": "IL",
+    "total_sites": 11,
+    "nr_capable_sites": 11,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17147": {
+    "fips": "17147",
+    "name": "Piatt County",
+    "state": "IL",
+    "total_sites": 11,
+    "nr_capable_sites": 11,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17149": {
+    "fips": "17149",
+    "name": "Pike County",
+    "state": "IL",
+    "total_sites": 11,
+    "nr_capable_sites": 11,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17151": {
+    "fips": "17151",
+    "name": "Pope County",
+    "state": "IL",
+    "total_sites": 6,
+    "nr_capable_sites": 5,
+    "lte_only_sites": 1,
+    "pct_modernized": 83.3,
+    "fully_nr_capable": false
+  },
+  "17153": {
+    "fips": "17153",
+    "name": "Pulaski County",
+    "state": "IL",
+    "total_sites": 3,
+    "nr_capable_sites": 2,
+    "lte_only_sites": 1,
+    "pct_modernized": 66.7,
+    "fully_nr_capable": false
+  },
+  "17155": {
+    "fips": "17155",
+    "name": "Putnam County",
+    "state": "IL",
+    "total_sites": 3,
+    "nr_capable_sites": 3,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17157": {
+    "fips": "17157",
+    "name": "Randolph County",
+    "state": "IL",
+    "total_sites": 14,
+    "nr_capable_sites": 14,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17159": {
+    "fips": "17159",
+    "name": "Richland County",
+    "state": "IL",
+    "total_sites": 6,
+    "nr_capable_sites": 6,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17161": {
+    "fips": "17161",
+    "name": "Rock Island County",
+    "state": "IL",
+    "total_sites": 59,
+    "nr_capable_sites": 59,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17163": {
+    "fips": "17163",
+    "name": "St. Clair County",
+    "state": "IL",
+    "total_sites": 99,
+    "nr_capable_sites": 99,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17165": {
+    "fips": "17165",
+    "name": "Saline County",
+    "state": "IL",
+    "total_sites": 9,
+    "nr_capable_sites": 6,
+    "lte_only_sites": 3,
+    "pct_modernized": 66.7,
+    "fully_nr_capable": false
+  },
+  "17167": {
+    "fips": "17167",
+    "name": "Sangamon County",
+    "state": "IL",
+    "total_sites": 82,
+    "nr_capable_sites": 82,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17169": {
+    "fips": "17169",
+    "name": "Schuyler County",
+    "state": "IL",
+    "total_sites": 4,
+    "nr_capable_sites": 4,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17171": {
+    "fips": "17171",
+    "name": "Scott County",
+    "state": "IL",
+    "total_sites": 6,
+    "nr_capable_sites": 6,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17173": {
+    "fips": "17173",
+    "name": "Shelby County",
+    "state": "IL",
+    "total_sites": 14,
+    "nr_capable_sites": 14,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17175": {
+    "fips": "17175",
+    "name": "Stark County",
+    "state": "IL",
+    "total_sites": 6,
+    "nr_capable_sites": 4,
+    "lte_only_sites": 2,
+    "pct_modernized": 66.7,
+    "fully_nr_capable": false
+  },
+  "17177": {
+    "fips": "17177",
+    "name": "Stephenson County",
+    "state": "IL",
+    "total_sites": 19,
+    "nr_capable_sites": 19,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17179": {
+    "fips": "17179",
+    "name": "Tazewell County",
+    "state": "IL",
+    "total_sites": 56,
+    "nr_capable_sites": 56,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17181": {
+    "fips": "17181",
+    "name": "Union County",
+    "state": "IL",
+    "total_sites": 8,
+    "nr_capable_sites": 8,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17183": {
+    "fips": "17183",
+    "name": "Vermilion County",
+    "state": "IL",
+    "total_sites": 31,
+    "nr_capable_sites": 26,
+    "lte_only_sites": 5,
+    "pct_modernized": 83.9,
+    "fully_nr_capable": false
+  },
+  "17185": {
+    "fips": "17185",
+    "name": "Wabash County",
+    "state": "IL",
+    "total_sites": 6,
+    "nr_capable_sites": 6,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17187": {
+    "fips": "17187",
+    "name": "Warren County",
+    "state": "IL",
+    "total_sites": 12,
+    "nr_capable_sites": 8,
+    "lte_only_sites": 4,
+    "pct_modernized": 66.7,
+    "fully_nr_capable": false
+  },
+  "17189": {
+    "fips": "17189",
+    "name": "Washington County",
+    "state": "IL",
+    "total_sites": 8,
+    "nr_capable_sites": 6,
+    "lte_only_sites": 2,
+    "pct_modernized": 75.0,
+    "fully_nr_capable": false
+  },
+  "17191": {
+    "fips": "17191",
+    "name": "Wayne County",
+    "state": "IL",
+    "total_sites": 12,
+    "nr_capable_sites": 12,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17193": {
+    "fips": "17193",
+    "name": "White County",
+    "state": "IL",
+    "total_sites": 9,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17195": {
+    "fips": "17195",
+    "name": "Whiteside County",
+    "state": "IL",
+    "total_sites": 25,
+    "nr_capable_sites": 25,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17197": {
+    "fips": "17197",
+    "name": "Will County",
+    "state": "IL",
+    "total_sites": 277,
+    "nr_capable_sites": 277,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17199": {
+    "fips": "17199",
+    "name": "Williamson County",
+    "state": "IL",
+    "total_sites": 31,
+    "nr_capable_sites": 31,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "17201": {
+    "fips": "17201",
+    "name": "Winnebago County",
+    "state": "IL",
+    "total_sites": 114,
+    "nr_capable_sites": 105,
+    "lte_only_sites": 9,
+    "pct_modernized": 92.1,
+    "fully_nr_capable": false
+  },
+  "17203": {
+    "fips": "17203",
+    "name": "Woodford County",
+    "state": "IL",
+    "total_sites": 17,
+    "nr_capable_sites": 10,
+    "lte_only_sites": 7,
+    "pct_modernized": 58.8,
+    "fully_nr_capable": false
+  },
+  "26001": {
+    "fips": "26001",
+    "name": "Alcona County",
+    "state": "MI",
+    "total_sites": 11,
+    "nr_capable_sites": 11,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26003": {
+    "fips": "26003",
+    "name": "Alger County",
+    "state": "MI",
+    "total_sites": 11,
+    "nr_capable_sites": 8,
+    "lte_only_sites": 3,
+    "pct_modernized": 72.7,
+    "fully_nr_capable": false
+  },
+  "26005": {
+    "fips": "26005",
+    "name": "Allegan County",
+    "state": "MI",
+    "total_sites": 55,
+    "nr_capable_sites": 55,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26007": {
+    "fips": "26007",
+    "name": "Alpena County",
+    "state": "MI",
+    "total_sites": 14,
+    "nr_capable_sites": 14,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26009": {
+    "fips": "26009",
+    "name": "Antrim County",
+    "state": "MI",
+    "total_sites": 15,
+    "nr_capable_sites": 15,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26011": {
+    "fips": "26011",
+    "name": "Arenac County",
+    "state": "MI",
+    "total_sites": 9,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26013": {
+    "fips": "26013",
+    "name": "Baraga County",
+    "state": "MI",
+    "total_sites": 9,
+    "nr_capable_sites": 5,
+    "lte_only_sites": 4,
+    "pct_modernized": 55.6,
+    "fully_nr_capable": false
+  },
+  "26015": {
+    "fips": "26015",
+    "name": "Barry County",
+    "state": "MI",
+    "total_sites": 30,
+    "nr_capable_sites": 30,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26017": {
+    "fips": "26017",
+    "name": "Bay County",
+    "state": "MI",
+    "total_sites": 40,
+    "nr_capable_sites": 40,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26019": {
+    "fips": "26019",
+    "name": "Benzie County",
+    "state": "MI",
+    "total_sites": 9,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26021": {
+    "fips": "26021",
+    "name": "Berrien County",
+    "state": "MI",
+    "total_sites": 64,
+    "nr_capable_sites": 64,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26023": {
+    "fips": "26023",
+    "name": "Branch County",
+    "state": "MI",
+    "total_sites": 22,
+    "nr_capable_sites": 22,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26025": {
+    "fips": "26025",
+    "name": "Calhoun County",
+    "state": "MI",
+    "total_sites": 57,
+    "nr_capable_sites": 57,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26027": {
+    "fips": "26027",
+    "name": "Cass County",
+    "state": "MI",
+    "total_sites": 23,
+    "nr_capable_sites": 21,
+    "lte_only_sites": 2,
+    "pct_modernized": 91.3,
+    "fully_nr_capable": false
+  },
+  "26029": {
+    "fips": "26029",
+    "name": "Charlevoix County",
+    "state": "MI",
+    "total_sites": 12,
+    "nr_capable_sites": 8,
+    "lte_only_sites": 4,
+    "pct_modernized": 66.7,
+    "fully_nr_capable": false
+  },
+  "26031": {
+    "fips": "26031",
+    "name": "Cheboygan County",
+    "state": "MI",
+    "total_sites": 15,
+    "nr_capable_sites": 15,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26033": {
+    "fips": "26033",
+    "name": "Chippewa County",
+    "state": "MI",
+    "total_sites": 22,
+    "nr_capable_sites": 13,
+    "lte_only_sites": 9,
+    "pct_modernized": 59.1,
+    "fully_nr_capable": false
+  },
+  "26035": {
+    "fips": "26035",
+    "name": "Clare County",
+    "state": "MI",
+    "total_sites": 17,
+    "nr_capable_sites": 17,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26037": {
+    "fips": "26037",
+    "name": "Clinton County",
+    "state": "MI",
+    "total_sites": 33,
+    "nr_capable_sites": 33,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26039": {
+    "fips": "26039",
+    "name": "Crawford County",
+    "state": "MI",
+    "total_sites": 10,
+    "nr_capable_sites": 10,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26041": {
+    "fips": "26041",
+    "name": "Delta County",
+    "state": "MI",
+    "total_sites": 23,
+    "nr_capable_sites": 23,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26043": {
+    "fips": "26043",
+    "name": "Dickinson County",
+    "state": "MI",
+    "total_sites": 16,
+    "nr_capable_sites": 16,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26045": {
+    "fips": "26045",
+    "name": "Eaton County",
+    "state": "MI",
+    "total_sites": 45,
+    "nr_capable_sites": 45,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26047": {
+    "fips": "26047",
+    "name": "Emmet County",
+    "state": "MI",
+    "total_sites": 18,
+    "nr_capable_sites": 18,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26049": {
+    "fips": "26049",
+    "name": "Genesee County",
+    "state": "MI",
+    "total_sites": 157,
+    "nr_capable_sites": 157,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26051": {
+    "fips": "26051",
+    "name": "Gladwin County",
+    "state": "MI",
+    "total_sites": 13,
+    "nr_capable_sites": 13,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26053": {
+    "fips": "26053",
+    "name": "Gogebic County",
+    "state": "MI",
+    "total_sites": 12,
+    "nr_capable_sites": 8,
+    "lte_only_sites": 4,
+    "pct_modernized": 66.7,
+    "fully_nr_capable": false
+  },
+  "26055": {
+    "fips": "26055",
+    "name": "Grand Traverse County",
+    "state": "MI",
+    "total_sites": 40,
+    "nr_capable_sites": 35,
+    "lte_only_sites": 5,
+    "pct_modernized": 87.5,
+    "fully_nr_capable": false
+  },
+  "26057": {
+    "fips": "26057",
+    "name": "Gratiot County",
+    "state": "MI",
+    "total_sites": 22,
+    "nr_capable_sites": 22,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26059": {
+    "fips": "26059",
+    "name": "Hillsdale County",
+    "state": "MI",
+    "total_sites": 20,
+    "nr_capable_sites": 15,
+    "lte_only_sites": 5,
+    "pct_modernized": 75.0,
+    "fully_nr_capable": false
+  },
+  "26061": {
+    "fips": "26061",
+    "name": "Houghton County",
+    "state": "MI",
+    "total_sites": 22,
+    "nr_capable_sites": 22,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26063": {
+    "fips": "26063",
+    "name": "Huron County",
+    "state": "MI",
+    "total_sites": 16,
+    "nr_capable_sites": 16,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26065": {
+    "fips": "26065",
+    "name": "Ingham County",
+    "state": "MI",
+    "total_sites": 115,
+    "nr_capable_sites": 115,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26067": {
+    "fips": "26067",
+    "name": "Ionia County",
+    "state": "MI",
+    "total_sites": 30,
+    "nr_capable_sites": 30,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26069": {
+    "fips": "26069",
+    "name": "Iosco County",
+    "state": "MI",
+    "total_sites": 12,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 3,
+    "pct_modernized": 75.0,
+    "fully_nr_capable": false
+  },
+  "26071": {
+    "fips": "26071",
+    "name": "Iron County",
+    "state": "MI",
+    "total_sites": 11,
+    "nr_capable_sites": 11,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26073": {
+    "fips": "26073",
+    "name": "Isabella County",
+    "state": "MI",
+    "total_sites": 27,
+    "nr_capable_sites": 27,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26075": {
+    "fips": "26075",
+    "name": "Jackson County",
+    "state": "MI",
+    "total_sites": 65,
+    "nr_capable_sites": 65,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26077": {
+    "fips": "26077",
+    "name": "Kalamazoo County",
+    "state": "MI",
+    "total_sites": 106,
+    "nr_capable_sites": 106,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26079": {
+    "fips": "26079",
+    "name": "Kalkaska County",
+    "state": "MI",
+    "total_sites": 10,
+    "nr_capable_sites": 10,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26081": {
+    "fips": "26081",
+    "name": "Kent County",
+    "state": "MI",
+    "total_sites": 263,
+    "nr_capable_sites": 216,
+    "lte_only_sites": 47,
+    "pct_modernized": 82.1,
+    "fully_nr_capable": false
+  },
+  "26083": {
+    "fips": "26083",
+    "name": "Keweenaw County",
+    "state": "MI",
+    "total_sites": 3,
+    "nr_capable_sites": 3,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26085": {
+    "fips": "26085",
+    "name": "Lake County",
+    "state": "MI",
+    "total_sites": 9,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26087": {
+    "fips": "26087",
+    "name": "Lapeer County",
+    "state": "MI",
+    "total_sites": 37,
+    "nr_capable_sites": 30,
+    "lte_only_sites": 7,
+    "pct_modernized": 81.1,
+    "fully_nr_capable": false
+  },
+  "26089": {
+    "fips": "26089",
+    "name": "Leelanau County",
+    "state": "MI",
+    "total_sites": 9,
+    "nr_capable_sites": 7,
+    "lte_only_sites": 2,
+    "pct_modernized": 77.8,
+    "fully_nr_capable": false
+  },
+  "26091": {
+    "fips": "26091",
+    "name": "Lenawee County",
+    "state": "MI",
+    "total_sites": 41,
+    "nr_capable_sites": 41,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26093": {
+    "fips": "26093",
+    "name": "Livingston County",
+    "state": "MI",
+    "total_sites": 79,
+    "nr_capable_sites": 64,
+    "lte_only_sites": 15,
+    "pct_modernized": 81.0,
+    "fully_nr_capable": false
+  },
+  "26095": {
+    "fips": "26095",
+    "name": "Luce County",
+    "state": "MI",
+    "total_sites": 9,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26097": {
+    "fips": "26097",
+    "name": "Mackinac County",
+    "state": "MI",
+    "total_sites": 12,
+    "nr_capable_sites": 12,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26099": {
+    "fips": "26099",
+    "name": "Macomb County",
+    "state": "MI",
+    "total_sites": 343,
+    "nr_capable_sites": 286,
+    "lte_only_sites": 57,
+    "pct_modernized": 83.4,
+    "fully_nr_capable": false
+  },
+  "26101": {
+    "fips": "26101",
+    "name": "Manistee County",
+    "state": "MI",
+    "total_sites": 12,
+    "nr_capable_sites": 12,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26103": {
+    "fips": "26103",
+    "name": "Marquette County",
+    "state": "MI",
+    "total_sites": 36,
+    "nr_capable_sites": 36,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26105": {
+    "fips": "26105",
+    "name": "Mason County",
+    "state": "MI",
+    "total_sites": 15,
+    "nr_capable_sites": 15,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26107": {
+    "fips": "26107",
+    "name": "Mecosta County",
+    "state": "MI",
+    "total_sites": 22,
+    "nr_capable_sites": 22,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26109": {
+    "fips": "26109",
+    "name": "Menominee County",
+    "state": "MI",
+    "total_sites": 16,
+    "nr_capable_sites": 16,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26111": {
+    "fips": "26111",
+    "name": "Midland County",
+    "state": "MI",
+    "total_sites": 36,
+    "nr_capable_sites": 28,
+    "lte_only_sites": 8,
+    "pct_modernized": 77.8,
+    "fully_nr_capable": false
+  },
+  "26113": {
+    "fips": "26113",
+    "name": "Missaukee County",
+    "state": "MI",
+    "total_sites": 12,
+    "nr_capable_sites": 12,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26115": {
+    "fips": "26115",
+    "name": "Monroe County",
+    "state": "MI",
+    "total_sites": 63,
+    "nr_capable_sites": 63,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26117": {
+    "fips": "26117",
+    "name": "Montcalm County",
+    "state": "MI",
+    "total_sites": 29,
+    "nr_capable_sites": 25,
+    "lte_only_sites": 4,
+    "pct_modernized": 86.2,
+    "fully_nr_capable": false
+  },
+  "26119": {
+    "fips": "26119",
+    "name": "Montmorency County",
+    "state": "MI",
+    "total_sites": 8,
+    "nr_capable_sites": 8,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26121": {
+    "fips": "26121",
+    "name": "Muskegon County",
+    "state": "MI",
+    "total_sites": 71,
+    "nr_capable_sites": 71,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26123": {
+    "fips": "26123",
+    "name": "Newaygo County",
+    "state": "MI",
+    "total_sites": 26,
+    "nr_capable_sites": 26,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26125": {
+    "fips": "26125",
+    "name": "Oakland County",
+    "state": "MI",
+    "total_sites": 505,
+    "nr_capable_sites": 505,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26127": {
+    "fips": "26127",
+    "name": "Oceana County",
+    "state": "MI",
+    "total_sites": 12,
+    "nr_capable_sites": 12,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26129": {
+    "fips": "26129",
+    "name": "Ogemaw County",
+    "state": "MI",
+    "total_sites": 10,
+    "nr_capable_sites": 10,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26131": {
+    "fips": "26131",
+    "name": "Ontonagon County",
+    "state": "MI",
+    "total_sites": 10,
+    "nr_capable_sites": 10,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26133": {
+    "fips": "26133",
+    "name": "Osceola County",
+    "state": "MI",
+    "total_sites": 13,
+    "nr_capable_sites": 13,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26135": {
+    "fips": "26135",
+    "name": "Oscoda County",
+    "state": "MI",
+    "total_sites": 7,
+    "nr_capable_sites": 7,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26137": {
+    "fips": "26137",
+    "name": "Otsego County",
+    "state": "MI",
+    "total_sites": 14,
+    "nr_capable_sites": 14,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26139": {
+    "fips": "26139",
+    "name": "Ottawa County",
+    "state": "MI",
+    "total_sites": 124,
+    "nr_capable_sites": 124,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26141": {
+    "fips": "26141",
+    "name": "Presque Isle County",
+    "state": "MI",
+    "total_sites": 10,
+    "nr_capable_sites": 10,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26143": {
+    "fips": "26143",
+    "name": "Roscommon County",
+    "state": "MI",
+    "total_sites": 15,
+    "nr_capable_sites": 15,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26145": {
+    "fips": "26145",
+    "name": "Saginaw County",
+    "state": "MI",
+    "total_sites": 79,
+    "nr_capable_sites": 79,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26147": {
+    "fips": "26147",
+    "name": "St. Clair County",
+    "state": "MI",
+    "total_sites": 68,
+    "nr_capable_sites": 59,
+    "lte_only_sites": 9,
+    "pct_modernized": 86.8,
+    "fully_nr_capable": false
+  },
+  "26149": {
+    "fips": "26149",
+    "name": "St. Joseph County",
+    "state": "MI",
+    "total_sites": 25,
+    "nr_capable_sites": 25,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26151": {
+    "fips": "26151",
+    "name": "Sanilac County",
+    "state": "MI",
+    "total_sites": 23,
+    "nr_capable_sites": 23,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26153": {
+    "fips": "26153",
+    "name": "Schoolcraft County",
+    "state": "MI",
+    "total_sites": 13,
+    "nr_capable_sites": 13,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26155": {
+    "fips": "26155",
+    "name": "Shiawassee County",
+    "state": "MI",
+    "total_sites": 32,
+    "nr_capable_sites": 25,
+    "lte_only_sites": 7,
+    "pct_modernized": 78.1,
+    "fully_nr_capable": false
+  },
+  "26157": {
+    "fips": "26157",
+    "name": "Tuscola County",
+    "state": "MI",
+    "total_sites": 24,
+    "nr_capable_sites": 18,
+    "lte_only_sites": 6,
+    "pct_modernized": 75.0,
+    "fully_nr_capable": false
+  },
+  "26159": {
+    "fips": "26159",
+    "name": "Van Buren County",
+    "state": "MI",
+    "total_sites": 31,
+    "nr_capable_sites": 31,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26161": {
+    "fips": "26161",
+    "name": "Washtenaw County",
+    "state": "MI",
+    "total_sites": 148,
+    "nr_capable_sites": 148,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26163": {
+    "fips": "26163",
+    "name": "Wayne County",
+    "state": "MI",
+    "total_sites": 687,
+    "nr_capable_sites": 687,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "26165": {
+    "fips": "26165",
+    "name": "Wexford County",
+    "state": "MI",
+    "total_sites": 17,
+    "nr_capable_sites": 17,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55001": {
+    "fips": "55001",
+    "name": "Adams County",
+    "state": "WI",
+    "total_sites": 13,
+    "nr_capable_sites": 10,
+    "lte_only_sites": 3,
+    "pct_modernized": 76.9,
+    "fully_nr_capable": false
+  },
+  "55003": {
+    "fips": "55003",
+    "name": "Ashland County",
+    "state": "WI",
+    "total_sites": 12,
+    "nr_capable_sites": 12,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55005": {
+    "fips": "55005",
+    "name": "Barron County",
+    "state": "WI",
+    "total_sites": 25,
+    "nr_capable_sites": 25,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55007": {
+    "fips": "55007",
+    "name": "Bayfield County",
+    "state": "WI",
+    "total_sites": 16,
+    "nr_capable_sites": 16,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55009": {
+    "fips": "55009",
+    "name": "Brown County",
+    "state": "WI",
+    "total_sites": 107,
+    "nr_capable_sites": 107,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55011": {
+    "fips": "55011",
+    "name": "Buffalo County",
+    "state": "WI",
+    "total_sites": 10,
+    "nr_capable_sites": 9,
+    "lte_only_sites": 1,
+    "pct_modernized": 90.0,
+    "fully_nr_capable": false
+  },
+  "55013": {
+    "fips": "55013",
+    "name": "Burnett County",
+    "state": "WI",
+    "total_sites": 10,
+    "nr_capable_sites": 10,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55015": {
+    "fips": "55015",
+    "name": "Calumet County",
+    "state": "WI",
+    "total_sites": 23,
+    "nr_capable_sites": 23,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55017": {
+    "fips": "55017",
+    "name": "Chippewa County",
+    "state": "WI",
+    "total_sites": 34,
+    "nr_capable_sites": 34,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55019": {
+    "fips": "55019",
+    "name": "Clark County",
+    "state": "WI",
+    "total_sites": 20,
+    "nr_capable_sites": 20,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55021": {
+    "fips": "55021",
+    "name": "Columbia County",
+    "state": "WI",
+    "total_sites": 26,
+    "nr_capable_sites": 18,
+    "lte_only_sites": 8,
+    "pct_modernized": 69.2,
+    "fully_nr_capable": false
+  },
+  "55023": {
+    "fips": "55023",
+    "name": "Crawford County",
+    "state": "WI",
+    "total_sites": 10,
+    "nr_capable_sites": 10,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55025": {
+    "fips": "55025",
+    "name": "Dane County",
+    "state": "WI",
+    "total_sites": 232,
+    "nr_capable_sites": 232,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55027": {
+    "fips": "55027",
+    "name": "Dodge County",
+    "state": "WI",
+    "total_sites": 41,
+    "nr_capable_sites": 41,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55029": {
+    "fips": "55029",
+    "name": "Door County",
+    "state": "WI",
+    "total_sites": 14,
+    "nr_capable_sites": 14,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55031": {
+    "fips": "55031",
+    "name": "Douglas County",
+    "state": "WI",
+    "total_sites": 25,
+    "nr_capable_sites": 25,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55033": {
+    "fips": "55033",
+    "name": "Dunn County",
+    "state": "WI",
+    "total_sites": 23,
+    "nr_capable_sites": 16,
+    "lte_only_sites": 7,
+    "pct_modernized": 69.6,
+    "fully_nr_capable": false
+  },
+  "55035": {
+    "fips": "55035",
+    "name": "Eau Claire County",
+    "state": "WI",
+    "total_sites": 44,
+    "nr_capable_sites": 44,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55037": {
+    "fips": "55037",
+    "name": "Florence County",
+    "state": "WI",
+    "total_sites": 4,
+    "nr_capable_sites": 3,
+    "lte_only_sites": 1,
+    "pct_modernized": 75.0,
+    "fully_nr_capable": false
+  },
+  "55039": {
+    "fips": "55039",
+    "name": "Fond du Lac County",
+    "state": "WI",
+    "total_sites": 43,
+    "nr_capable_sites": 43,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55041": {
+    "fips": "55041",
+    "name": "Forest County",
+    "state": "WI",
+    "total_sites": 8,
+    "nr_capable_sites": 8,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55043": {
+    "fips": "55043",
+    "name": "Grant County",
+    "state": "WI",
+    "total_sites": 29,
+    "nr_capable_sites": 23,
+    "lte_only_sites": 6,
+    "pct_modernized": 79.3,
+    "fully_nr_capable": false
+  },
+  "55045": {
+    "fips": "55045",
+    "name": "Green County",
+    "state": "WI",
+    "total_sites": 19,
+    "nr_capable_sites": 19,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55047": {
+    "fips": "55047",
+    "name": "Green Lake County",
+    "state": "WI",
+    "total_sites": 8,
+    "nr_capable_sites": 8,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55049": {
+    "fips": "55049",
+    "name": "Iowa County",
+    "state": "WI",
+    "total_sites": 12,
+    "nr_capable_sites": 12,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55051": {
+    "fips": "55051",
+    "name": "Iron County",
+    "state": "WI",
+    "total_sites": 7,
+    "nr_capable_sites": 4,
+    "lte_only_sites": 3,
+    "pct_modernized": 57.1,
+    "fully_nr_capable": false
+  },
+  "55053": {
+    "fips": "55053",
+    "name": "Jackson County",
+    "state": "WI",
+    "total_sites": 13,
+    "nr_capable_sites": 8,
+    "lte_only_sites": 5,
+    "pct_modernized": 61.5,
+    "fully_nr_capable": false
+  },
+  "55055": {
+    "fips": "55055",
+    "name": "Jefferson County",
+    "state": "WI",
+    "total_sites": 35,
+    "nr_capable_sites": 32,
+    "lte_only_sites": 3,
+    "pct_modernized": 91.4,
+    "fully_nr_capable": false
+  },
+  "55057": {
+    "fips": "55057",
+    "name": "Juneau County",
+    "state": "WI",
+    "total_sites": 13,
+    "nr_capable_sites": 11,
+    "lte_only_sites": 2,
+    "pct_modernized": 84.6,
+    "fully_nr_capable": false
+  },
+  "55059": {
+    "fips": "55059",
+    "name": "Kenosha County",
+    "state": "WI",
+    "total_sites": 67,
+    "nr_capable_sites": 67,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55061": {
+    "fips": "55061",
+    "name": "Kewaunee County",
+    "state": "WI",
+    "total_sites": 12,
+    "nr_capable_sites": 12,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55063": {
+    "fips": "55063",
+    "name": "La Crosse County",
+    "state": "WI",
+    "total_sites": 49,
+    "nr_capable_sites": 49,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55065": {
+    "fips": "55065",
+    "name": "Lafayette County",
+    "state": "WI",
+    "total_sites": 10,
+    "nr_capable_sites": 10,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55067": {
+    "fips": "55067",
+    "name": "Langlade County",
+    "state": "WI",
+    "total_sites": 14,
+    "nr_capable_sites": 12,
+    "lte_only_sites": 2,
+    "pct_modernized": 85.7,
+    "fully_nr_capable": false
+  },
+  "55069": {
+    "fips": "55069",
+    "name": "Lincoln County",
+    "state": "WI",
+    "total_sites": 15,
+    "nr_capable_sites": 11,
+    "lte_only_sites": 4,
+    "pct_modernized": 73.3,
+    "fully_nr_capable": false
+  },
+  "55071": {
+    "fips": "55071",
+    "name": "Manitowoc County",
+    "state": "WI",
+    "total_sites": 36,
+    "nr_capable_sites": 27,
+    "lte_only_sites": 9,
+    "pct_modernized": 75.0,
+    "fully_nr_capable": false
+  },
+  "55073": {
+    "fips": "55073",
+    "name": "Marathon County",
+    "state": "WI",
+    "total_sites": 62,
+    "nr_capable_sites": 55,
+    "lte_only_sites": 7,
+    "pct_modernized": 88.7,
+    "fully_nr_capable": false
+  },
+  "55075": {
+    "fips": "55075",
+    "name": "Marinette County",
+    "state": "WI",
+    "total_sites": 25,
+    "nr_capable_sites": 25,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55077": {
+    "fips": "55077",
+    "name": "Marquette County",
+    "state": "WI",
+    "total_sites": 8,
+    "nr_capable_sites": 8,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55078": {
+    "fips": "55078",
+    "name": "Menominee County",
+    "state": "WI",
+    "total_sites": 3,
+    "nr_capable_sites": 3,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55079": {
+    "fips": "55079",
+    "name": "Milwaukee County",
+    "state": "WI",
+    "total_sites": 359,
+    "nr_capable_sites": 359,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55081": {
+    "fips": "55081",
+    "name": "Monroe County",
+    "state": "WI",
+    "total_sites": 26,
+    "nr_capable_sites": 26,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55083": {
+    "fips": "55083",
+    "name": "Oconto County",
+    "state": "WI",
+    "total_sites": 24,
+    "nr_capable_sites": 24,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55085": {
+    "fips": "55085",
+    "name": "Oneida County",
+    "state": "WI",
+    "total_sites": 21,
+    "nr_capable_sites": 21,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55087": {
+    "fips": "55087",
+    "name": "Outagamie County",
+    "state": "WI",
+    "total_sites": 81,
+    "nr_capable_sites": 81,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55089": {
+    "fips": "55089",
+    "name": "Ozaukee County",
+    "state": "WI",
+    "total_sites": 39,
+    "nr_capable_sites": 39,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55091": {
+    "fips": "55091",
+    "name": "Pepin County",
+    "state": "WI",
+    "total_sites": 3,
+    "nr_capable_sites": 3,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55093": {
+    "fips": "55093",
+    "name": "Pierce County",
+    "state": "WI",
+    "total_sites": 22,
+    "nr_capable_sites": 12,
+    "lte_only_sites": 10,
+    "pct_modernized": 54.5,
+    "fully_nr_capable": false
+  },
+  "55095": {
+    "fips": "55095",
+    "name": "Polk County",
+    "state": "WI",
+    "total_sites": 22,
+    "nr_capable_sites": 22,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55097": {
+    "fips": "55097",
+    "name": "Portage County",
+    "state": "WI",
+    "total_sites": 34,
+    "nr_capable_sites": 34,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55099": {
+    "fips": "55099",
+    "name": "Price County",
+    "state": "WI",
+    "total_sites": 16,
+    "nr_capable_sites": 16,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55101": {
+    "fips": "55101",
+    "name": "Racine County",
+    "state": "WI",
+    "total_sites": 78,
+    "nr_capable_sites": 61,
+    "lte_only_sites": 17,
+    "pct_modernized": 78.2,
+    "fully_nr_capable": false
+  },
+  "55103": {
+    "fips": "55103",
+    "name": "Richland County",
+    "state": "WI",
+    "total_sites": 11,
+    "nr_capable_sites": 11,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55105": {
+    "fips": "55105",
+    "name": "Rock County",
+    "state": "WI",
+    "total_sites": 66,
+    "nr_capable_sites": 62,
+    "lte_only_sites": 4,
+    "pct_modernized": 93.9,
+    "fully_nr_capable": false
+  },
+  "55107": {
+    "fips": "55107",
+    "name": "Rusk County",
+    "state": "WI",
+    "total_sites": 13,
+    "nr_capable_sites": 13,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55109": {
+    "fips": "55109",
+    "name": "St. Croix County",
+    "state": "WI",
+    "total_sites": 44,
+    "nr_capable_sites": 44,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55111": {
+    "fips": "55111",
+    "name": "Sauk County",
+    "state": "WI",
+    "total_sites": 32,
+    "nr_capable_sites": 32,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55113": {
+    "fips": "55113",
+    "name": "Sawyer County",
+    "state": "WI",
+    "total_sites": 16,
+    "nr_capable_sites": 16,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55115": {
+    "fips": "55115",
+    "name": "Shawano County",
+    "state": "WI",
+    "total_sites": 23,
+    "nr_capable_sites": 16,
+    "lte_only_sites": 7,
+    "pct_modernized": 69.6,
+    "fully_nr_capable": false
+  },
+  "55117": {
+    "fips": "55117",
+    "name": "Sheboygan County",
+    "state": "WI",
+    "total_sites": 48,
+    "nr_capable_sites": 34,
+    "lte_only_sites": 14,
+    "pct_modernized": 70.8,
+    "fully_nr_capable": false
+  },
+  "55119": {
+    "fips": "55119",
+    "name": "Taylor County",
+    "state": "WI",
+    "total_sites": 13,
+    "nr_capable_sites": 13,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55121": {
+    "fips": "55121",
+    "name": "Trempealeau County",
+    "state": "WI",
+    "total_sites": 19,
+    "nr_capable_sites": 19,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55123": {
+    "fips": "55123",
+    "name": "Vernon County",
+    "state": "WI",
+    "total_sites": 16,
+    "nr_capable_sites": 16,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55125": {
+    "fips": "55125",
+    "name": "Vilas County",
+    "state": "WI",
+    "total_sites": 13,
+    "nr_capable_sites": 10,
+    "lte_only_sites": 3,
+    "pct_modernized": 76.9,
+    "fully_nr_capable": false
+  },
+  "55127": {
+    "fips": "55127",
+    "name": "Walworth County",
+    "state": "WI",
+    "total_sites": 42,
+    "nr_capable_sites": 35,
+    "lte_only_sites": 7,
+    "pct_modernized": 83.3,
+    "fully_nr_capable": false
+  },
+  "55129": {
+    "fips": "55129",
+    "name": "Washburn County",
+    "state": "WI",
+    "total_sites": 13,
+    "nr_capable_sites": 13,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55131": {
+    "fips": "55131",
+    "name": "Washington County",
+    "state": "WI",
+    "total_sites": 56,
+    "nr_capable_sites": 56,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55133": {
+    "fips": "55133",
+    "name": "Waukesha County",
+    "state": "WI",
+    "total_sites": 166,
+    "nr_capable_sites": 166,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55135": {
+    "fips": "55135",
+    "name": "Waupaca County",
+    "state": "WI",
+    "total_sites": 25,
+    "nr_capable_sites": 25,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55137": {
+    "fips": "55137",
+    "name": "Waushara County",
+    "state": "WI",
+    "total_sites": 12,
+    "nr_capable_sites": 12,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55139": {
+    "fips": "55139",
+    "name": "Winnebago County",
+    "state": "WI",
+    "total_sites": 69,
+    "nr_capable_sites": 69,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  },
+  "55141": {
+    "fips": "55141",
+    "name": "Wood County",
+    "state": "WI",
+    "total_sites": 33,
+    "nr_capable_sites": 33,
+    "lte_only_sites": 0,
+    "pct_modernized": 100.0,
+    "fully_nr_capable": true
+  }
+}
