@@ -355,14 +355,16 @@ and the page only looks for the backend when it is itself served from localhost.
 
 ## License
 
-Two parts, because this repository holds two different kinds of work — see
-[LICENSE](LICENSE) for the full text.
+Two parts, because this repository holds two different kinds of work.
 
 | What | Licence |
 | --- | --- |
-| Source code — `tools/*.py`, `index.html`, `prototype.html` | **MIT** — use it, learn from it, build on it |
-| Case study, README, `workflows/`, `assets/`, `data/` | **CC BY-NC-ND 4.0** — credit required, non-commercial, no derivatives |
+| Source code — `tools/*.py`, `index.html`, `prototype.html` | **MIT** — see [LICENSE](LICENSE) |
+| Case study, README, `workflows/`, `assets/`, `data/` | **CC BY-NC-ND 4.0** — see [LICENSE-CONTENT.md](LICENSE-CONTENT.md) |
 
+`LICENSE` holds the MIT text alone so GitHub detects it; **MIT covers the source
+code only.** The case study narrative, screenshots, demo recording and generated
+datasets are CC BY-NC-ND: credit required, non-commercial, no derivatives.
 Presenting this case study or its research as your own work is not permitted.
 
 US Census data (county names, FIPS, population, land area, boundaries) is a US
