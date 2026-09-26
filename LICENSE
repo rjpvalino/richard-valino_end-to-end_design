@@ -1,0 +1,68 @@
+Copyright (c) 2026 Richard Valino
+
+This repository is licensed in two parts, because it contains two different
+kinds of work.
+
+
+-------------------------------------------------------------------------------
+1. SOURCE CODE — MIT License
+-------------------------------------------------------------------------------
+
+Applies to: tools/*.py, index.html, prototype.html, and any other source code
+in this repository.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+-------------------------------------------------------------------------------
+2. CASE STUDY CONTENT — CC BY-NC-ND 4.0
+-------------------------------------------------------------------------------
+
+Applies to: the written case study and its narrative, README.md, the documents
+in workflows/, the screenshots and demo recording in assets/, and the generated
+datasets in data/.
+
+Licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0
+International License (CC BY-NC-ND 4.0).
+
+    https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+In short, you are free to share this material provided that you:
+
+  - give appropriate credit to Richard Valino and link back to this repository;
+  - do not use it for commercial purposes;
+  - do not distribute modified versions of it.
+
+Presenting this case study, or any part of its research, writing, or imagery, as
+your own work is not permitted under any circumstances.
+
+
+-------------------------------------------------------------------------------
+3. THIRD-PARTY AND PUBLIC-DOMAIN MATERIAL
+-------------------------------------------------------------------------------
+
+US Census Bureau data — county names, FIPS codes, population, land area, and
+boundary geometry — is a work of the United States Government and is in the
+public domain. No rights are claimed over it here.
+
+Leaflet (BSD-2-Clause) and Chart.js (MIT) are loaded at runtime from a CDN and
+are not redistributed in this repository. They remain under their own licenses.
+
+"GLA - Mobile" is a fictional carrier invented for this case study. All network,
+device, hardware, and spectrum data in this repository is synthetic. It does not
+describe, and is not derived from, any real carrier's network or holdings.

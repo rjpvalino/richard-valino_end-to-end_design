@@ -352,3 +352,19 @@ confirming neither appears. `.nojekyll` is committed so Pages serves the files a
 Nothing on the published site calls the Anthropic API. The explanations were generated
 offline and ship as `data/explanations.json`; the chat backend and MCP server are local-only
 and the page only looks for the backend when it is itself served from localhost.
+
+## License
+
+Two parts, because this repository holds two different kinds of work — see
+[LICENSE](LICENSE) for the full text.
+
+| What | Licence |
+| --- | --- |
+| Source code — `tools/*.py`, `index.html`, `prototype.html` | **MIT** — use it, learn from it, build on it |
+| Case study, README, `workflows/`, `assets/`, `data/` | **CC BY-NC-ND 4.0** — credit required, non-commercial, no derivatives |
+
+Presenting this case study or its research as your own work is not permitted.
+
+US Census data (county names, FIPS, population, land area, boundaries) is a US
+Government work in the public domain. Leaflet and Chart.js load from a CDN and
+are not redistributed here.
